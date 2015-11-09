@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -26,6 +26,13 @@ class Item(db.Model):
 def home():
 	items = Item.query.order_by(Item.id).all()
 	return render_template('Home.html', items = items)
+
+@app.route('/new', methods=['POST'])
+def add_item():
+	item = Item(request.form['name'], request.form['quantity'])
+	db.session.add(item)
+	db.session.commit()
+	return redirect(url_for('home'))
 
 if __name__ == '__main__':
 	app.run(debug=True)

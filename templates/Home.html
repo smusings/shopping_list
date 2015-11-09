@@ -1,10 +1,15 @@
 {% block body %}
 	<h2>Items</h2>
+	<form action="{{ url_for('add_item') }}" method="POST">
+		<input type='text' name='name'>
+		<input type='text' name='quantity'>
+		<input type="submit" value="Save">
+	</form>
 	<ul class="items">
 	{% for item in items %}
 		<li><h3>{{item.name}} - {{item.quantity}}</h3></li>
 	{% else %}
-		<p>No entries found!</p>
+		<p>No items found!</p>
 	{% endfor %}
 	</ul>
 {% endblock %}
