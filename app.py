@@ -34,5 +34,13 @@ def add_item():
 	db.session.commit()
 	return redirect(url_for('home'))
 
+@app.route('/delete', methods=['POST'])
+def delete_item():
+	id = request.form['id']
+	item = Item.query.filter_by(id=id).first()
+	db.session.delete(item)
+	db.session.commit()
+	return redirect(url_for('home'))
+
 if __name__ == '__main__':
 	app.run(debug=True)
