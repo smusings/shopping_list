@@ -1,8 +1,10 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+app.config.from_object('config')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.dirname(os.path.realpath(__file__))+'/db/eugenet.db'
 
@@ -24,8 +26,11 @@ class Item(db.Model):
 
 @app.route('/')
 def home():
-	items = Item.query.order_by(Item.id).all()
-	return render_template('Home.html', items = items)
+    if not session.get('logged_in'):
+    	return render_template('login.html')
+    else:
+		items = Item.query.order_by(Item.id).all()
+		return render_template('Home.html', items = items)
 
 @app.route('/new', methods=['POST'])
 def add_item():
@@ -41,6 +46,19 @@ def delete_item():
 	db.session.delete(item)
 	db.session.commit()
 	return redirect(url_for('home'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid Username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid Password'
+        else:
+            session['logged_in'] = True
+            return redirect(url_for('home'))
+    return render_template('login.html', error = error)
 
 if __name__ == '__main__':
 	app.run(debug=True)
