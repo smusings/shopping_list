@@ -7,7 +7,7 @@
 	</form>
 	<ul class="items">
 	{% for item in items %}
-		<li><h3>{{item.name}} - {{item.quantity}}</h3><form action="{{ url_for('delete_item') }}"method="POST"><input type="hidden" value="{{item.id}}" name="id"><input type="submit" value="Delete"></form></li>
+		<li><h3 style="display: initial">{{item.name}} - {{item.quantity}}</h3><form action="{{ url_for('delete_item') }}"method="POST" style="display: initial"><input type="hidden" value="{{item.id}}" name="id"> <input type="submit" value="Delete"></form></li>
 	{% else %}
 		<p>No items found!</p>
 	{% endfor %}
