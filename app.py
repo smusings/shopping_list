@@ -34,18 +34,24 @@ def home():
 
 @app.route('/new', methods=['POST'])
 def add_item():
-	item = Item(request.form['name'], request.form['quantity'])
-	db.session.add(item)
-	db.session.commit()
-	return redirect(url_for('home'))
+	if not session.get('logged_in'):
+    	return render_template('login.html')
+	else:
+		item = Item(request.form['name'], request.form['quantity'])
+		db.session.add(item)
+		db.session.commit()
+		return redirect(url_for('home'))
 
 @app.route('/delete', methods=['POST'])
 def delete_item():
-	id = request.form['id']
-	item = Item.query.filter_by(id=id).first()
-	db.session.delete(item)
-	db.session.commit()
-	return redirect(url_for('home'))
+	if not session.get('logged_in'):
+    	return render_template('login.html')
+	else:
+		id = request.form['id']
+		item = Item.query.filter_by(id=id).first()
+		db.session.delete(item)
+		db.session.commit()
+		return redirect(url_for('home'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
