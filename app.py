@@ -35,7 +35,7 @@ def home():
 @app.route('/new', methods=['POST'])
 def add_item():
 	if not session.get('logged_in'):
-    	return render_template('login.html')
+		return render_template('login.html')
 	else:
 		item = Item(request.form['name'], request.form['quantity'])
 		db.session.add(item)
@@ -45,7 +45,7 @@ def add_item():
 @app.route('/delete', methods=['POST'])
 def delete_item():
 	if not session.get('logged_in'):
-    	return render_template('login.html')
+		return render_template('login.html')
 	else:
 		id = request.form['id']
 		item = Item.query.filter_by(id=id).first()
