@@ -24,6 +24,16 @@ class Item(db.Model):
 	def __repr__(self):
 		return '<Item %r>' %self.name
 
+
+class User(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	email = db.Column(db.String(255), unique = True)
+	password = db.Column(db.String(255))
+
+	def __init__(self, email, password):
+		self.email = email
+		self.password = password
+
 @app.route('/')
 def home():
     if not session.get('logged_in'):
