@@ -12,10 +12,20 @@ class User(db.Model):
 
 class List(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	name = db.Column(db.String(120))
 
-	def __init__(self, id, userId):
+	def __init__(self, name):
+		self.name = name
+
+class UserList(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
+
+	def __init__(self, userId, listId):
 		self.user_id = userId
+		self.list_id = listId
+
 
 class Item(db.Model):
 	id = db.Column(db.Integer, primary_key = True)

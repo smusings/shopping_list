@@ -13,8 +13,11 @@ def home():
 @app.route('/register')
 def register():
 	user = User(request.form['email'], request.form['password'])
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('login'))
 
-@app.route('/new', methods=['POST'])
+@app.route('/newItem', methods=['POST'])
 def add_item():
 	if not session.get('logged_in'):
 		return render_template('login.html')
@@ -24,7 +27,7 @@ def add_item():
 		db.session.commit()
 		return redirect(url_for('home'))
 
-@app.route('/delete', methods=['POST'])
+@app.route('/deleteItem', methods=['POST'])
 def delete_item():
 	if not session.get('logged_in'):
 		return render_template('login.html')
