@@ -1,6 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from shoppingList import db
 
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key = True)

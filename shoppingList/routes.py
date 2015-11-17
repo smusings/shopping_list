@@ -1,6 +1,6 @@
 from shoppingList import app
 from flask import render_template, request, redirect, url_for, session
-
+from shoppingList.models import User, List, Item
 
 @app.route('/')
 def home():
