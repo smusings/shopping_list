@@ -22,7 +22,7 @@ def home():
 
 @app.route('/register')
 def register():
-	user = User(request.form['email'], request.form['password'])
+    user = User(request.form['email'], request.form['password'])
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('login'))
@@ -44,11 +44,11 @@ def delete_item():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-		id = request.form['id']
-		item = Item.query.filter_by(id=id).first()
-		db.session.delete(item)
-		db.session.commit()
-		return redirect(url_for('home'))
+        id = request.form['id']
+        item = Item.query.filter_by(id=id).first()
+        db.session.delete(item)
+        db.session.commit()
+        return redirect(url_for('home'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
