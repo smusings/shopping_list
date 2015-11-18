@@ -5,6 +5,16 @@ from shoppingList.models import User, List, Item
 @app.route('/')
 def home():
     if not session.get('logged_in'):
+        return render_template('login_lists')
+    else:
+        user = session.get('user')
+        lists = (session.query(List).join(UserList).filter(UserList.user_id == user.id).order_by(UserList.id)).all()
+        #come up with SQL statement for getting the lists per User
+        return render_template('shopping_lists')
+
+@app.route('/')
+def home():
+    if not session.get('logged_in'):
     	return render_template('login.html')
     else:
 		items = Item.query.order_by(Item.id).all()
@@ -16,6 +26,8 @@ def register():
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('login'))
+
+@app.route('/shareList')
 
 @app.route('/newItem', methods=['POST'])
 def add_item():
@@ -40,13 +52,15 @@ def delete_item():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    user = User.query.filter_by('email'=request.form['username'])
     error = None
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid Username'
-        elif request.form['password'] != app.config['PASSWORD']:
+        if user == null:
+            error = 'Invalid Email'
+        elif user.password != request.form['password']:
             error = 'Invalid Password'
-        else:
+        elif request.form['username'] == user.email && request.form['password'] == request.form['password']:
             session['logged_in'] = True
+            session['user'] = user
             return redirect(url_for('home'))
     return render_template('login.html', error = error)
