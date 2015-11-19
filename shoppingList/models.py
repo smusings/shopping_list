@@ -26,7 +26,6 @@ class UserList(db.Model):
 		self.user_id = userId
 		self.list_id = listId
 
-
 class Item(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(120))
