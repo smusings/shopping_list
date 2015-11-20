@@ -32,12 +32,16 @@ def delete_item():
         db.session.commit()
         return redirect(url_for('home'))
 
-@app.route('/register', methods=['POST'])
+@app.route('/register')
 def register():
+    return render_template('register.html')
+
+@app.route('/registerUser', methods=['POST'])
+def register_user():
     user = User(request.form['email'], request.form['password'])
     db.session.add(user)
     db.session.commit()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
