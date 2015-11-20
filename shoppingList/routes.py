@@ -2,21 +2,14 @@ from shoppingList import app
 from flask import render_template, request, redirect, url_for, session
 from shoppingList.models import User, List, Item
 
+    else:
 @app.route('/')
 def home():
     if not session.get('logged_in'):
         return render_template('login_lists')
-    else:
         user = session.get('user')
         lists = (session.query(List).join(UserList).filter(UserList.user_id == user.id).order_by(UserList.id)).all()
         return render_template('shopping_lists')
-
-@app.route('/register')
-def register():
-    user = User(request.form['email'], request.form['password'])
-    db.session.add(user)
-    db.session.commit()
-    return redirect(url_for('login'))
 
 @app.route('/newItem', methods=['POST'])
 def add_item():
@@ -38,6 +31,14 @@ def delete_item():
         db.session.delete(item)
         db.session.commit()
         return redirect(url_for('home'))
+
+@app.route('/register', methods=['POST'])
+def register():
+    user = User(request.form['email'], request.form['password'])
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('login'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
