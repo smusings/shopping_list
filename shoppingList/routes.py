@@ -1,16 +1,36 @@
 from shoppingList import app
 from flask import render_template, request, redirect, url_for, session
-from shoppingList.models import User, List, Item
+from shoppingList.models import User, List, Item, UserList
 
-    else:
 @app.route('/')
 def home():
     if not session.get('logged_in'):
         return render_template('login_lists')
+    else:
         user = session.get('user')
         lists = (session.query(List).join(UserList).filter(UserList.user_id == user.id).order_by(UserList.id)).all()
         return render_template('shopping_lists')
 
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/createList', methods=['POST'])
+def create_list():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        user = session.get['user']
+        lists = List(request.form['name'])
+        db.session.add(lists)
+        userList = List.query.filter_by(name = request.form['name']).first()
+        userListConnection = UserList(user.id, userList.id)
+        db.session.add(userListConnection);
+        # db.session.commit()
+        return redirect(url_for('home'))
+
+
+#DBRoutes
 @app.route('/newItem', methods=['POST'])
 def add_item():
     if not session.get('logged_in'):
@@ -32,9 +52,6 @@ def delete_item():
         db.session.commit()
         return redirect(url_for('home'))
 
-@app.route('/register')
-def register():
-    return render_template('register.html')
 
 @app.route('/registerUser', methods=['POST'])
 def register_user():
