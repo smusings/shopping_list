@@ -9,11 +9,16 @@ def home():
     else:
         user = session.get('user')
         lists = (session.query(List).join(UserList).filter(UserList.user_id == user.id).order_by(UserList.id)).all()
-        return render_template('shopping_lists')
+        return render_template('shopping_lists', listList = lists)
 
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+@app.route('/list/<int: id>')
+def view_list(id):
+    shoppingList = List.query.filter_by(id = id).all()
+    return render_tempalte('list/html', shoppingList = shoppingList)
 
 @app.route('/createList', methods=['POST'])
 def create_list():
@@ -28,7 +33,6 @@ def create_list():
         db.session.add(userListConnection);
         # db.session.commit()
         return redirect(url_for('home'))
-
 
 #DBRoutes
 @app.route('/newItem', methods=['POST'])
@@ -52,14 +56,12 @@ def delete_item():
         db.session.commit()
         return redirect(url_for('home'))
 
-
 @app.route('/registerUser', methods=['POST'])
 def register_user():
     user = User(request.form['email'], request.form['password'])
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('home'))
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
