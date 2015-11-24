@@ -5,20 +5,22 @@ from shoppingList.models import User, List, Item, UserList
 @app.route('/')
 def home():
     if not session.get('logged_in'):
-        return render_template('login_lists')
+        return render_template('login.html')
     else:
-        user = session.get('user')
-        lists = (session.query(List).join(UserList).filter(UserList.user_id == user.id).order_by(UserList.id)).all()
-        return render_template('shopping_lists', listList = lists)
+        lists = []
+        if session.get('user'):
+            user = session.get('user')
+            lists = List.query.join(UserList).filter(UserList.user_id == user.id).order_by(UserList.id).all()
+        return render_template('shopping_lists.html', lists = lists)
 
 @app.route('/register')
 def register():
     return render_template('register.html')
 
-@app.route('/list/<int: id>')
+@app.route('/list/<int:id>')
 def view_list(id):
     shoppingList = List.query.filter_by(id = id).all()
-    return render_tempalte('list/html', shoppingList = shoppingList)
+    return render_tempalte('list.html', shoppingList = shoppingList)
 
 @app.route('/createList', methods=['POST'])
 def create_list():
