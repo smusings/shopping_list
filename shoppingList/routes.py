@@ -1,4 +1,4 @@
-from shoppingList import app
+from shoppingList import app, db
 from flask import render_template, request, redirect, url_for, session
 from shoppingList.models import User, List, Item, UserList
 
@@ -67,15 +67,16 @@ def register_user():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    user = User.query.filter_by(email=request.form['username'])
+    user = User.query.filter_by(email=request.form['username']).first()
     error = None
     if request.method == 'POST':
-        if user == null:
+        if user is None:
             error = 'Invalid Email'
-        elif user.password != request.form['password']:
-            error = 'Invalid Password'
-        elif request.form['username'] == user.email and request.form['password'] == user.password:
-            session['logged_in'] = True
-            session['user'] = user
-            return redirect(url_for('home'))
+        else:
+            if request.form['password'] != user.password:
+                error = 'Invalid Password'
+            elif request.form['username'] == user.email and request.form['password'] == user.password:
+                session['logged_in'] = True
+                session['user'] = user.id
+                return redirect(url_for('home'))
         return render_template('login.html', error = error)
