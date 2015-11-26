@@ -17,26 +17,34 @@ def home():
 def register():
     return render_template('register.html')
 
+@app.route('/createList')
+def create_list():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return render_template('new_list.html')
+
 @app.route('/list/<int:id>')
 def view_list(id):
     shoppingList = List.query.filter_by(id = id).all()
     return render_tempalte('list.html', shoppingList = shoppingList)
 
-@app.route('/createList', methods=['POST'])
-def create_list():
+#DBRoutes
+@app.route('/newList', methods=['POST'])
+def add_list():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        user = session.get['user']
         lists = List(request.form['name'])
-        db.session.add(lists)
-        userList = List.query.filter_by(name = request.form['name']).first()
-        userListConnection = UserList(user.id, userList.id)
-        db.session.add(userListConnection);
-        # db.session.commit()
+        db.session.add(item)
+        shoppingList = List.query.filter_by(name = request.form['name']).last()
+        #need to rethink list, otherwise we have trouble connecting if we have two lists with the same name.
+        #do not want to make them unique
+        userList = UserList(request.form['user'], shoppingList.id)
+        db.session.add(userList)
+        db.session.commit()
         return redirect(url_for('home'))
 
-#DBRoutes
 @app.route('/newItem', methods=['POST'])
 def add_item():
     if not session.get('logged_in'):
