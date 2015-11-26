@@ -10,7 +10,7 @@ def home():
         lists = []
         if session.get('user'):
             user = session.get('user')
-            lists = List.query.join(UserList).filter(UserList.user_id == user.id).order_by(UserList.id).all()
+            lists = List.query.join(UserList).filter(UserList.user_id == user).order_by(UserList.id).all()
         return render_template('shopping_lists.html', lists = lists)
 
 @app.route('/register')
@@ -63,6 +63,12 @@ def register_user():
     user = User(request.form['email'], request.form['password'])
     db.session.add(user)
     db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    session.pop('user', None)
     return redirect(url_for('home'))
 
 @app.route('/login', methods=['GET', 'POST'])
