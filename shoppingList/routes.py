@@ -26,8 +26,8 @@ def create_list():
 
 @app.route('/list/<int:id>')
 def view_list(id):
-    shoppingList = List.query.filter_by(id = id).all()
-    return render_template('list.html', shoppingList = shoppingList)
+    items = Item.query.filter_by(list_id = id).all()
+    return render_template('list.html', items = items, list_id = id)
 
 #DBRoutes
 @app.route('/newList', methods=['POST'])
@@ -45,10 +45,10 @@ def add_item():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        item = Item(request.form['name'], request.form['quantity'])
+        item = Item(request.form['name'], request.form['list_id'], request.form['quantity'])
         db.session.add(item)
         db.session.commit()
-        return redirect(url_for('home'))
+        return redirect(url_for('view_list', id=request.form['list_id']))
 
 @app.route('/deleteItem', methods=['POST'])
 def delete_item():
