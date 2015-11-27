@@ -10,8 +10,8 @@ def home():
         lists = []
         if session.get('user'):
             user = session.get('user')
-            lists = List.query.join(UserList).filter(UserList.user_id == user).order_by(UserList.id).all()
-        return render_template('shopping_lists.html', lists = lists)
+            lst = List.query.filter(List.user_id == user).all()
+        return render_template('shopping_lists.html', lists = lst)
 
 @app.route('/register')
 def register():
@@ -27,7 +27,7 @@ def create_list():
 @app.route('/list/<int:id>')
 def view_list(id):
     shoppingList = List.query.filter_by(id = id).all()
-    return render_tempalte('list.html', shoppingList = shoppingList)
+    return render_template('list.html', shoppingList = shoppingList)
 
 #DBRoutes
 @app.route('/newList', methods=['POST'])
@@ -35,13 +35,8 @@ def add_list():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        lists = List(request.form['name'])
-        db.session.add(item)
-        shoppingList = List.query.filter_by(name = request.form['name']).last()
-        #need to rethink list, otherwise we have trouble connecting if we have two lists with the same name.
-        #do not want to make them unique
-        userList = UserList(request.form['user'], shoppingList.id)
-        db.session.add(userList)
+        lst = List(request.form['name'], session.get('user'))
+        db.session.add(lst)
         db.session.commit()
         return redirect(url_for('home'))
 

@@ -2,7 +2,7 @@
 	<h2>Your Lists</h2>
 	<ul class="lists">
 	{% for lists in lists %}
-		<li><h3 style="display: initial">{{lists.name}}</h3></li>
+		<li><a href="{{url_for('view_list', id = lists.id)}}"<h3 style="display: initial">{{lists.name}}</h3></li>
 	{% else %}
 		<p>No lists found!</p>
 	{% endfor %}
