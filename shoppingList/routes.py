@@ -1,5 +1,5 @@
 from shoppingList import app, db
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
 
 @app.route('/')
@@ -28,6 +28,11 @@ def create_list():
 def view_list(id):
     items = Item.query.filter_by(list_id = id).all()
     return render_template('list.html', items = items, list_id = id)
+
+@app.route('/json_list/<int:id>')
+def json_list(id):
+    items = Item.query.filter_by(list_id = id).all()
+    return jsonify(data=[i.serialize for i in items])
 
 #DBRoutes
 @app.route('/newList', methods=['POST'])

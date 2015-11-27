@@ -40,3 +40,12 @@ class Item(db.Model):
 		if quantity is None:
 			quantity = 1
 		self.quantity = quantity
+
+	@property
+	def serialize(self):
+		return {
+			'id' : self.id,
+			'name':self.name,
+			'quantity':self.quantity,
+			'list_id':self.list_id
+		}
