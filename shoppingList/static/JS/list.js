@@ -25,15 +25,20 @@ shoppingList.controller('listController', function($scope, $http){
 		$http.post('/newItem.json', $scope.newItem)
 		.success(function(response)
 			{
-				console.log("Item Created");
+				alert("Item Created");
 				$scope.getData();
-
 			});
 	}
 
-	$scope.deleteItem = function()
+	$scope.deleteItem = function(id)
 	{
-
+		console.log(id);
+		$http.post('/deleteItem.json', id)
+		.success(function(response)
+		{
+			alert("Item Deleted");
+			$scope.getData();
+		});
 	}
 
 

@@ -28,10 +28,21 @@ def create_list():
 def view_list(id):
     return render_template('list.html', list_id = id)
 
+#DBRoutes
 @app.route('/list.json/<int:id>')
 def json_list(id):
     items = Item.query.filter_by(list_id = id).all()
     return jsonify(data=[i.serialize for i in items])
+
+@app.route('/newList', methods=['POST'])
+def add_list():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        lst = List(request.form['name'], session.get('user'))
+        db.session.add(lst)
+        db.session.commit()
+        return redirect(url_for('home'))
 
 @app.route('/newItem.json', methods=['GET', 'POST'])
 def new_item_json():
@@ -43,38 +54,20 @@ def new_item_json():
         db.session.commit()
         return 'Success'
     else:
-        return 'SKREEE'
-#DBRoutes
-@app.route('/newList', methods=['POST'])
-def add_list():
-    if not session.get('logged_in'):
-        return render_template('login.html')
-    else:
-        lst = List(request.form['name'], session.get('user'))
-        db.session.add(lst)
-        db.session.commit()
-        return redirect(url_for('home'))
+        return 'No JSON Object'
 
-@app.route('/newItem', methods=['POST'])
-def add_item():
-    if not session.get('logged_in'):
-        return render_template('login.html')
-    else:
-        item = Item(request.form['name'], request.form['list_id'], request.form['quantity'])
-        db.session.add(item)
-        db.session.commit()
-        return redirect(url_for('view_list', id=request.form['list_id']))
-
-@app.route('/deleteItem', methods=['POST'])
-def delete_item():
-    if not session.get('logged_in'):
-        return render_template('login.html')
-    else:
-        id = request.form['id']
-        item = Item.query.filter_by(id=id).first()
+@app.route('/deleteItem.json', methods=['GET', 'POST'])
+def delete_item_json():
+    if request.method == 'POST':
+        obj = request.get_json(silent=True)
+        # obj = json_list[0]
+        print obj
+        item = Item.query.filter_by(id = obj).first()
         db.session.delete(item)
         db.session.commit()
-        return redirect(url_for('home'))
+        return 'Success'
+    else:
+        return 'No JSON Object'
 
 @app.route('/registerUser', methods=['POST'])
 def register_user():

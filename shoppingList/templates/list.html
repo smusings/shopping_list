@@ -10,7 +10,7 @@
 			<input type="submit" value="Save" ng-click="addItem()">
 		{{ name }}
 		<ul class="items">
-			<li ng-repeat="item in list"><strong>{[item.name]}</strong> - {[item.quantity]} <form action="{{ url_for('delete_item') }}"method="POST" style="display: initial"><input type="hidden" value="{[item.id]}" name="id"> <input type="submit" value="Delete"></form></li>
+			<li ng-repeat="item in list"><strong>{[item.name]}</strong> - {[item.quantity]}<form action="{{ url_for('delete_item') }}"method="POST" style="display: initial"><input type="button" value="Delete" ng-click="deleteItem(item.id)"></li>
 		</ul>
 	</div>
 {% endblock %}
