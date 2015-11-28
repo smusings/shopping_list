@@ -1,24 +1,16 @@
+{% extends "layout.html" %}
 {% block body %}
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
-	<script src="/static/JS/app.js"></script>
-	<script src="/static/JS/login.js"></script>
+	<script src="/static/JS/list.js"></script>
 	<div ng-app="shoppingList" ng-controller="listController">
 		<input type="hidden" id="url" value="{{url_for('json_list', id = list_id)}}">
-		{[list ]}
-		<div ng-repeat="item in list">{[item.name]} - {[item.quantity]}</div>
 		<h2>Items</h2>
-		<form action="{{ url_for('add_item') }}" method="POST">
-			<input type='text' name='name'>
-			<input type='text' name='quantity'>
-			<input type='hidden' name="list_id" value="{{ list_id }}">
-			<input type="submit" value="Save">
-		</form>
+			<input type='text' ng-model="itemName" name='name'>
+			<input type='text' ng-model="itemQuantity" name='quantity'>
+			<input type='hidden' id="listId" name="list_id" value="{{ list_id }}">
+			<input type="submit" value="Save" ng-click="addItem()">
+		{{ name }}
 		<ul class="items">
-		{% for item in items %}
-			<li><h3 style="display: initial">{{item.name}} - {{item.quantity}}</h3><form action="{{ url_for('delete_item') }}"method="POST" style="display: initial"><input type="hidden" value="{{item.id}}" name="id"> <input type="submit" value="Delete"></form></li>
-		{% else %}
-			<p>No items found!</p>
-		{% endfor %}
+			<li ng-repeat="item in list"><strong>{[item.name]}</strong> - {[item.quantity]} <form action="{{ url_for('delete_item') }}"method="POST" style="display: initial"><input type="hidden" value="{[item.id]}" name="id"> <input type="submit" value="Delete"></form></li>
 		</ul>
 	</div>
 {% endblock %}

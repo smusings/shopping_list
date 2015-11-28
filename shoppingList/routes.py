@@ -26,14 +26,24 @@ def create_list():
 
 @app.route('/list/<int:id>')
 def view_list(id):
-    items = Item.query.filter_by(list_id = id).all()
-    return render_template('list.html', items = items, list_id = id)
+    return render_template('list.html', list_id = id)
 
-@app.route('/json_list/<int:id>')
+@app.route('/list.json/<int:id>')
 def json_list(id):
     items = Item.query.filter_by(list_id = id).all()
     return jsonify(data=[i.serialize for i in items])
 
+@app.route('/newItem.json', methods=['GET', 'POST'])
+def new_item_json():
+    if request.method == 'POST':
+        json_list = request.get_json(silent=True)
+        obj = json_list[0]
+        item = Item(obj['name'], obj['list_id'], obj['quantity'])
+        db.session.add(item)
+        db.session.commit()
+        return 'Success'
+    else:
+        return 'SKREEE'
 #DBRoutes
 @app.route('/newList', methods=['POST'])
 def add_list():
