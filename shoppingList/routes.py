@@ -32,6 +32,8 @@ def view_list(id):
 @app.route('/list.json/<int:id>')
 def json_list(id):
     items = Item.query.filter_by(list_id = id).all()
+    for i in items:
+        print i.list_id
     return jsonify(data=[i.serialize for i in items])
 
 @app.route('/newList', methods=['POST'])
