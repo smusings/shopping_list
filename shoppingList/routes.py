@@ -26,16 +26,12 @@ def create_list():
 
 @app.route('/list/<int:id>')
 def view_list(id):
-    return render_template('list.html', list_id = id)
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return render_template('list.html', list_id = id)
 
 #DBRoutes
-@app.route('/list.json/<int:id>')
-def json_list(id):
-    items = Item.query.filter_by(list_id = id).all()
-    for i in items:
-        print i.list_id
-    return jsonify(data=[i.serialize for i in items])
-
 @app.route('/newList', methods=['POST'])
 def add_list():
     if not session.get('logged_in'):
@@ -46,42 +42,50 @@ def add_list():
         db.session.commit()
         return redirect(url_for('home'))
 
+@app.route('/list.json/<int:id>')
+def json_list(id):
+    if not session.get('logged_in'):
+        return jsonify(data="Credentials Not Found")
+    else:
+        items = Item.query.filter_by(list_id = id).all()
+        return jsonify(data=[i.serialize for i in items])
+
 @app.route('/newItem.json', methods=['GET', 'POST'])
 def new_item_json():
-    if request.method == 'POST':
-        json_list = request.get_json(silent=True)
-        obj = json_list[0]
-        item = Item(obj['name'], obj['list_id'], obj['quantity'])
-        db.session.add(item)
-        db.session.commit()
-        return 'Success'
+    if not session.get('logged_in'):
+        return jsonify(data="Credentials Not Found")
     else:
-        return 'No JSON Object'
+        if request.method == 'POST':
+            json_list = request.get_json(silent=True)
+            obj = json_list[0]
+            item = Item(obj['name'], obj['list_id'], obj['quantity'])
+            db.session.add(item)
+            db.session.commit()
+            return 'Success'
+        else:
+            return 'No JSON Object'
 
 @app.route('/deleteItem.json', methods=['GET', 'POST'])
 def delete_item_json():
-    if request.method == 'POST':
-        obj = request.get_json(silent=True)
-        # obj = json_list[0]
-        print obj
-        item = Item.query.filter_by(id = obj).first()
-        db.session.delete(item)
-        db.session.commit()
-        return 'Success'
+    if not session.get('logged_in'):
+        return jsonify(data="Credentials Not Found")
     else:
-        return 'No JSON Object'
+        if request.method == 'POST':
+            obj = request.get_json(silent=True)
+            # obj = json_list[0]
+            print obj
+            item = Item.query.filter_by(id = obj).first()
+            db.session.delete(item)
+            db.session.commit()
+            return 'Success'
+        else:
+            return 'No JSON Object'
 
 @app.route('/registerUser', methods=['POST'])
 def register_user():
     user = User(request.form['email'], request.form['password'])
     db.session.add(user)
     db.session.commit()
-    return redirect(url_for('home'))
-
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    session.pop('user', None)
     return redirect(url_for('home'))
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -99,3 +103,9 @@ def login():
                 session['user'] = user.id
                 return redirect(url_for('home'))
         return render_template('login.html', error = error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    session.pop('user', None)
+    return redirect(url_for('home'))
