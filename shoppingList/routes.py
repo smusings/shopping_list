@@ -42,6 +42,17 @@ def add_list():
         db.session.commit()
         return redirect(url_for('home'))
 
+@app.route('/shoppingList.json')
+def shopping_list():
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        print "skreee"
+        user = session.get('user')
+        lst = List.query.join(UserList, List.id == UserList.list_id).filter(List.id = user).all()
+        return jsonify(data=[i.serialize for i in lst])
+
+
 @app.route('/list.json/<int:id>')
 def json_list(id):
     if not session.get('logged_in'):
@@ -72,8 +83,6 @@ def delete_item_json():
     else:
         if request.method == 'POST':
             obj = request.get_json(silent=True)
-            # obj = json_list[0]
-            print obj
             item = Item.query.filter_by(id = obj).first()
             db.session.delete(item)
             db.session.commit()
