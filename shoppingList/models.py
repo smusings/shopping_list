@@ -19,6 +19,14 @@ class List(db.Model):
 		self.name = name
 		self.user_id = userId
 
+	@property
+	def serialize(self):
+		return {
+			'id' : self.id,
+			'name':self.name,
+			'user_id':self.user_id
+		}
+
 class UserList(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

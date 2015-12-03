@@ -49,7 +49,7 @@ def shopping_list():
     else:
         print "skreee"
         user = session.get('user')
-        lst = List.query.join(UserList, List.id == UserList.list_id).filter(List.id = user).all()
+        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.user_id == user).all()
         return jsonify(data=[i.serialize for i in lst])
 
 
