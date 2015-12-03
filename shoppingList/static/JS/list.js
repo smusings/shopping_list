@@ -25,7 +25,7 @@ shoppingList.controller('listController', function($scope, $http){
 		$http.post('/newItem.json', $scope.newItem)
 		.success(function(response)
 			{
-				alert("Item Created");
+				alert(response);
 				$scope.getData();
 			});
 	}
@@ -36,7 +36,7 @@ shoppingList.controller('listController', function($scope, $http){
 		$http.post('/deleteItem.json', id)
 		.success(function(response)
 		{
-			alert("Item Deleted");
+			alert(response);
 			$scope.getData();
 		});
 	}

@@ -45,9 +45,8 @@ def add_list():
 @app.route('/shoppingList.json')
 def shopping_list():
     if not session.get('logged_in'):
-        return render_template('login.html')
+        return jsonify(data="Credentials Not Found")
     else:
-        print "skreee"
         user = session.get('user')
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.user_id == user).all()
         return jsonify(data=[i.serialize for i in lst])
