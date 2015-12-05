@@ -32,26 +32,19 @@ def view_list(id):
         return render_template('list.html', list_id = id)
 
 #DBRoutes
-@app.route('/newList', methods=['POST'])
+@app.route("/newList.json", methods=['POST'])
 def add_list():
     if not session.get('logged_in'):
-        return render_template('login.html')
+        return "Credentials Not Found"
     else:
-        lst = List(request.form['name'], session.get('user'))
-        db.session.add(lst)
-        db.session.commit()
-        return redirect(url_for('home'))
-
-@app.route("/newList.json", methods=['POST'])
-def add_new_list():
-    if not session.get('logged_in'):
-        return jsonify(data="Credentials Not Found")
-    else:
-        for obj in json_list:
-            lst = List(obj['name'], session.get('user'))
+        if request.method == 'POST':
+            obj = request.get_json(silent=True)
+            lst = List(obj, session.get('user'))
             db.session.add(lst)
-        db.session.commit()
-        return "Success"
+            db.session.commit()
+            return "Success"
+        else:
+            return 'No JSON Object'
 
 
 @app.route('/shoppingList.json')
