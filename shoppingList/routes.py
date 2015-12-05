@@ -42,6 +42,18 @@ def add_list():
         db.session.commit()
         return redirect(url_for('home'))
 
+@app.route("/newList.json", methods=['POST'])
+def add_new_list():
+    if not session.get('logged_in'):
+        return jsonify(data="Credentials Not Found")
+    else:
+        for obj in json_list:
+            lst = List(obj['name'], session.get('user'))
+            db.session.add(lst)
+        db.session.commit()
+        return "Success"
+
+
 @app.route('/shoppingList.json')
 def shopping_list():
     if not session.get('logged_in'):
@@ -67,9 +79,9 @@ def new_item_json():
     else:
         if request.method == 'POST':
             json_list = request.get_json(silent=True)
-            obj = json_list[0]
-            item = Item(obj['name'], obj['list_id'], obj['quantity'])
-            db.session.add(item)
+            for obj in json_list:
+                item = Item(obj['name'], obj['list_id'], obj['quantity'])
+                db.session.add(item)
             db.session.commit()
             return 'Success'
         else:
