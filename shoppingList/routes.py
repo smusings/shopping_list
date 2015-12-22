@@ -80,7 +80,7 @@ def new_item_json():
         else:
             return 'No JSON Object'
 
-@app.route('/deleteItem.json', methods=['GET', 'POST'])
+@app.route('/deleteItem.json', methods=['POST'])
 def delete_item_json():
     if not session.get('logged_in'):
         return jsonify(data="Credentials Not Found")
@@ -100,6 +100,18 @@ def register_user():
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('home'))
+
+@app.route('/shareList', methods=['POST'])
+def share_list():
+    lst = List.query.filter_by(id = request.form['list_id'])
+    if "@" in request.form['target_email']:
+        target = User.query.filter_by(email = request.form).first()
+        userList = UserList(target.id, lst.id)
+        db.session.add(userList)
+        db.session.commit()
+    else:
+        print request.form['target_email']
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
