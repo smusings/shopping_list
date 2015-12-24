@@ -44,11 +44,13 @@ class Item(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
 
-	def __init__(self, name, listId,price, user_id, quantity=None):
+	def __init__(self, name, listId, price=None, user_id, quantity=None):
 		self.name = name
 		self.list_id = listId
 		if quantity is None:
 			quantity = 1
+		if price is None:
+			price = 0
 		self.price = price
 		self.user_id = user_id
 		self.quantity = quantity
