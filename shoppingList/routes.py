@@ -110,7 +110,9 @@ def share_list():
         db.session.add(userList)
         db.session.commit()
     else:
-        print request.form['target_email']
+        msg = message("Hello, you have had a list shared with you",
+            sender="my@email.com",
+            recipients=[equest.form['target_email'])
 
 
 @app.route('/login', methods=['GET', 'POST'])
