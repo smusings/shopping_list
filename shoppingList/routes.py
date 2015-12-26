@@ -109,10 +109,12 @@ def share_list():
         userList = UserList(target.id, lst.id)
         db.session.add(userList)
         db.session.commit()
+        return "User Found, list added!"
     else:
         msg = message("Hello, you have had a list shared with you",
             sender="my@email.com",
             recipients=[equest.form['target_email'])
+        return "User Not Found. Email Sent!"
 
 
 @app.route('/login', methods=['GET', 'POST'])
