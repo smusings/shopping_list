@@ -1,0 +1,5 @@
+ALTER TABLE item
+ADD price INTEGER
+
+ALTER TABLE item
+ADD user_id INTEGER
