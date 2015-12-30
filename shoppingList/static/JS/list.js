@@ -8,8 +8,8 @@ shoppingList.controller('listController', function($scope, $http){
 		$scope.getUrl = document.getElementById('url').value
 		$http.get($scope.getUrl)
 		.success(function(response) {
-				$scope.list = response['data'];
 				console.log(response['data']);
+				$scope.list = response['data'];
 			});
 	}
 

@@ -47,7 +47,6 @@ class Item(db.Model):
 	def __init__(self, name, listId, user_id, price=None, quantity=None):
 		self.name = name
 		self.list_id = listId
-		self.price = price
 		self.user_id = user_id
 		self.quantity = quantity
 		if quantity is None:
@@ -60,6 +59,8 @@ class Item(db.Model):
 		return {
 			'id' : self.id,
 			'name':self.name,
+			'list_id':self.list_id,
+			'price':self.price,
+			'user_id':self.user_id,
 			'quantity':self.quantity,
-			'list_id':self.list_id
 		}
