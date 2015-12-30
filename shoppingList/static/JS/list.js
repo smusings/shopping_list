@@ -9,6 +9,7 @@ shoppingList.controller('listController', function($scope, $http){
 		$http.get($scope.getUrl)
 		.success(function(response) {
 				$scope.list = response['data'];
+				console.log(response['data']);
 			});
 	}
 

@@ -10,7 +10,10 @@
 			<input type="submit" value="Save" ng-click="addItem()">
 		{{ name }}
 		<ul class="items">
-			<li ng-repeat="item in list"><strong>{[item.name]}</strong> - {[item.quantity]}<input type="button" value="Delete" ng-click="deleteItem(item.id)"></li>
+			<li ng-repeat="item in list">
+			<strong>{[item.name]}</strong> - {[item.quantity]} for {[item.price | currency :"USD$"]}
+			<input type="button" value="Delete" ng-click="deleteItem(item.id)">
+			</li>
 		</ul>
 	</div>
 {% endblock %}
