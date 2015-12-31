@@ -6,7 +6,6 @@ shoppingList.controller('listController', function($scope, $http){
 	{
 		$http.get("/shoppingList.json")
 		.success(function(response) {
-				console.log(response['data']);
 				$scope.shoppingList = response['data'];
 			});
 	}

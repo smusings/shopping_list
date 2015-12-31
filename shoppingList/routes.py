@@ -73,7 +73,7 @@ def new_item_json():
         if request.method == 'POST':
             json_list = request.get_json(silent=True)
             for obj in json_list:
-                item = Item(obj['name'], obj['list_id'], obj['quantity'])
+                item = Item(obj['name'], obj['list_id'], session.get('user'), obj['price'], obj['quantity'])
                 db.session.add(item)
             db.session.commit()
             return 'Success'

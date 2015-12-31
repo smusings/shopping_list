@@ -4,14 +4,15 @@
 	<div ng-app="shoppingList" ng-controller="listController">
 		<input type="hidden" id="url" value="{{url_for('json_list', id = list_id)}}">
 		<h2>Items</h2>
-			<input type='text' ng-model="itemName" name='name'>
-			<input type='text' ng-model="itemQuantity" name='quantity'>
+			<input type='text' ng-model="itemName" name='name' placeholder='Item Name'>
+			<input type='text' ng-model="itemPrice" name='price' placeholder='Price'>
+			<input type='text' ng-model="itemQuantity" name='quantity' placeholder='Quantity'>
 			<input type='hidden' id="listId" name="list_id" value="{{ list_id }}">
 			<input type="submit" value="Save" ng-click="addItem()">
 		{{ name }}
 		<ul class="items">
 			<li ng-repeat="item in list">
-			<strong>{[item.name]}</strong> - {[item.quantity]} for {[item.price | currency :"USD$"]}
+			<strong>{[item.name]}</strong> - {[item.quantity]} for {[item.price | currency :"$"]}
 			<input type="button" value="Delete" ng-click="deleteItem(item.id)">
 			</li>
 		</ul>

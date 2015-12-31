@@ -21,6 +21,7 @@ shoppingList.controller('listController', function($scope, $http){
 			'name': $scope.itemName,
 			'list_id': $scope.listId,
 			'quantity': $scope.itemQuantity
+			'price': $scope.itemPrice
 		}];
 
 		$http.post('/newItem.json', $scope.newItem)
