@@ -20,7 +20,7 @@ shoppingList.controller('listController', function($scope, $http){
 		$scope.newItem = [{
 			'name': $scope.itemName,
 			'list_id': $scope.listId,
-			'quantity': $scope.itemQuantity
+			'quantity': $scope.itemQuantity,
 			'price': $scope.itemPrice
 		}];
 
@@ -29,6 +29,8 @@ shoppingList.controller('listController', function($scope, $http){
 			{
 				alert(response);
 				$scope.getData();
+				clearField();
+
 			});
 	}
 
@@ -41,6 +43,14 @@ shoppingList.controller('listController', function($scope, $http){
 			alert(response);
 			$scope.getData();
 		});
+	}
+
+	function clearField()
+	{
+		$scope.itemName = "";
+		$scope.listId = "";
+		$scope.itemQuantity = "";
+		$scope.itemPrice = "";
 	}
 
 
