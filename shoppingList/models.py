@@ -48,11 +48,12 @@ class Item(db.Model):
 		self.name = name
 		self.list_id = listId
 		self.user_id = user_id
-		self.quantity = quantity
-		if quantity is None:
-			quantity = 1
 		if price is None:
 			price = 0
+		self.price = price;
+		if quantity is None:
+			quantity = 1
+		self.quantity = quantity
 
 	@property
 	def serialize(self):

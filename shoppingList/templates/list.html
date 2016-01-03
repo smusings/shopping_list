@@ -5,8 +5,8 @@
 		<input type="hidden" id="url" value="{{url_for('json_list', id = list_id)}}">
 		<h2>Items</h2>
 			<input type='text' ng-model="itemName" name='name' placeholder='Item Name'>
-			<input type='text' ng-model="itemPrice" name='price' placeholder='Price'>
-			<input type='text' ng-model="itemQuantity" name='quantity' placeholder='Quantity'>
+			<input type='number' ng-model="itemPrice" name='price' placeholder='Price'>
+			<input type='number' ng-model="itemQuantity" name='quantity' placeholder='Quantity'>
 			<input type='hidden' id="listId" name="list_id" value="{{ list_id }}">
 			<input type="submit" value="Save" ng-click="addItem()">
 		{{ name }}
