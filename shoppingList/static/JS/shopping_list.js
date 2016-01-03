@@ -39,6 +39,4 @@ shoppingList.controller('listController', function($scope, $http){
 		}
 
 	}
-
-
 });

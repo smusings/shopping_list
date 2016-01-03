@@ -30,7 +30,6 @@ shoppingList.controller('listController', function($scope, $http){
 				alert(response);
 				$scope.getData();
 				clearField();
-
 			});
 	}
 

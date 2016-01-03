@@ -46,7 +46,6 @@ def add_list():
         else:
             return 'No JSON Object'
 
-
 @app.route('/shoppingList.json')
 def shopping_list():
     if not session.get('logged_in'):
