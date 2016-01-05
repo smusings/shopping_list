@@ -23,8 +23,6 @@ shoppingList.controller('listController', function($scope, $http){
 	{
 		if($scope.listName.length >= 1)
 		{
-			console.log($scope.listName);
-
 			$http.post("/newList.json", JSON.stringify($scope.listName))
 			.success(function(response)
 			{
