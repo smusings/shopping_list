@@ -1,3 +1,4 @@
+import math
 from shoppingList import app, db
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
@@ -72,7 +73,9 @@ def new_item_json():
         if request.method == 'POST':
             json_list = request.get_json(silent=True)
             for obj in json_list:
-                item = Item(obj['name'], obj['list_id'], session.get('user'), obj['price'], obj['quantity'])
+                price = abs(obj['price'])
+                quantity = int(abs(obj['quantity']))
+                item = Item(obj['name'], obj['list_id'], session.get('user'), price, quantity)
                 db.session.add(item)
             db.session.commit()
             return 'Success'
