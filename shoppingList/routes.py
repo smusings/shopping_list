@@ -82,6 +82,24 @@ def new_item_json():
         else:
             return 'No JSON Object'
 
+@app.route('/deleteTable.json', methods=['DELETE'])
+def delete_table_json():
+    if not session.get('logged_in'):
+        return jsonify(data="Credentials Not Found")
+    else:
+        if request.method == 'DELETE':
+            obj = request.get_json(silent=True)
+            shopping_list_id = obj
+            user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=obj).first()
+            if user_list is None:
+                lst = List.query.filter_by(id=obj).first()
+                db.session.delete(lst)
+            else:
+                db.session.delete(user_list)
+            db.session.commit()
+        else:
+            return 'Wrong Call Type'
+
 @app.route('/deleteItem.json', methods=['POST'])
 def delete_item_json():
     if not session.get('logged_in'):

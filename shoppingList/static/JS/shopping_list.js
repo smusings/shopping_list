@@ -19,6 +19,17 @@ shoppingList.controller('listController', function($scope, $http){
 		$scope.listForm = $scope.listForm?false:true;
 	}
 
+	$scope.deleteItem = function(id)
+	{
+		console.log(id);
+		$http.post('/deleteTable.json', id)
+		.success(function(response)
+		{
+			alert(response);
+			$scope.getData();
+		});
+	}
+
 	$scope.submitList = function()
 	{
 		if($scope.listName.length >= 1)
