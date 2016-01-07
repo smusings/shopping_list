@@ -82,21 +82,21 @@ def new_item_json():
         else:
             return 'No JSON Object'
 
-@app.route('/deleteTable.json', methods=['DELETE'])
-def delete_table_json():
+@app.route('/deleteTable.json/<int:id>', methods=['DELETE'])
+def delete_table_json(id):
     if not session.get('logged_in'):
         return jsonify(data="Credentials Not Found")
     else:
         if request.method == 'DELETE':
-            obj = request.get_json(silent=True)
-            shopping_list_id = obj
-            user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=obj).first()
+            user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
             if user_list is None:
-                lst = List.query.filter_by(id=obj).first()
+                lst = List.query.filter_by(id=id).first()
+                print lst
                 db.session.delete(lst)
             else:
                 db.session.delete(user_list)
             db.session.commit()
+            return 'Removed!'
         else:
             return 'Wrong Call Type'
 

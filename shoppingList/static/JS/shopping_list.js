@@ -19,10 +19,10 @@ shoppingList.controller('listController', function($scope, $http){
 		$scope.listForm = $scope.listForm?false:true;
 	}
 
-	$scope.deleteItem = function(id)
+	$scope.delete_list= function(id)
 	{
 		console.log(id);
-		$http.post('/deleteTable.json', id)
+		$http.delete('/deleteTable.json/'+id)
 		.success(function(response)
 		{
 			alert(response);
@@ -46,6 +46,5 @@ shoppingList.controller('listController', function($scope, $http){
 		{
 			alert("Enter List Name!")
 		}
-
 	}
 });
