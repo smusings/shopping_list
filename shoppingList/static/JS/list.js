@@ -8,7 +8,6 @@ shoppingList.controller('listController', function($scope, $http){
 		$scope.getUrl = document.getElementById('url').value
 		$http.get($scope.getUrl)
 		.success(function(response) {
-				console.log(response['data']);
 				$scope.list = response['data'];
 			});
 	}
@@ -35,7 +34,6 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.deleteItem = function(id)
 	{
-		console.log(id);
 		$http.post('/deleteItem.json', id)
 		.success(function(response)
 		{
