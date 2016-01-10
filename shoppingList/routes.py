@@ -40,10 +40,14 @@ def add_list():
     else:
         if request.method == 'POST':
             obj = request.get_json(silent=True)
-            lst = List(obj, session.get('user'))
-            db.session.add(lst)
-            db.session.commit()
-            return "Success"
+            possible_list = List.query.filter_by(name=obj, user_id=session.get('user')).first();
+            if possible_list is None:
+                lst = List(obj, session.get('user'))
+                db.session.add(lst)
+                db.session.commit()
+                return "Success"
+            else:
+                return "List Already Found"
         else:
             return 'No JSON Object'
 
