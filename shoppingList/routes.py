@@ -3,12 +3,15 @@ from shoppingList import app, db
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
 
+def check_credentials():
+    return not session.get('logged_in')
+
 @app.route('/')
 def home():
-    if not session.get('logged_in'):
+    if check_credentials():
         return render_template('login.html')
     else:
-        lists = []
+        lst = []
         if session.get('user'):
             user = session.get('user')
             lst = List.query.filter(List.user_id == user).all()
