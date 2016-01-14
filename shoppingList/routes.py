@@ -3,12 +3,9 @@ from shoppingList import app, db
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
 
-def check_credentials():
-    return not session.get('logged_in')
-
 @app.route('/')
 def home():
-    if check_credentials():
+    if not session.get('logged_in'):
         return render_template('login.html')
     else:
         lst = []
