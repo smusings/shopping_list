@@ -36,6 +36,14 @@ class UserList(db.Model):
 		self.user_id = userId
 		self.list_id = listId
 
+	@property
+	def serialize(self):
+		return {
+			'id' : self.id,
+			'user_id':user_id,
+			'list_id':list_id,
+		}
+
 class Item(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(120))
