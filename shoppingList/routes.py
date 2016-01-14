@@ -50,14 +50,14 @@ def add_list():
                 db.session.commit()
                 return "Success"
             else:
-                return "List Already Found"
+                return "List Already Created"
         else:
             return 'No JSON Object'
 
 @app.route('/shoppingList.json')
 def shopping_list():
     if not session.get('logged_in'):
-        return jsonify(data="Credentials Not Found")
+        return "Credentials Not Found"
     else:
         user = session.get('user')
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.user_id == user).all()
@@ -75,7 +75,7 @@ def json_list(id):
 @app.route('/newItem.json', methods=['GET', 'POST'])
 def new_item_json():
     if not session.get('logged_in'):
-        return jsonify(data="Credentials Not Found")
+        return "Credentials Not Found"
     else:
         if request.method == 'POST':
             json_list = request.get_json(silent=True)
@@ -97,7 +97,7 @@ def new_item_json():
 @app.route('/deleteTable.json/<int:id>', methods=['DELETE'])
 def delete_table_json(id):
     if not session.get('logged_in'):
-        return jsonify(data="Credentials Not Found")
+        return "Credentials Not Found"
     else:
         if request.method == 'DELETE':
             user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
@@ -114,7 +114,7 @@ def delete_table_json(id):
 @app.route('/deleteItem.json', methods=['POST'])
 def delete_item_json():
     if not session.get('logged_in'):
-        return jsonify(data="Credentials Not Found")
+        return "Credentials Not Found"
     else:
         if request.method == 'POST':
             obj = request.get_json(silent=True)
