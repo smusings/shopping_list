@@ -40,8 +40,8 @@ def add_list():
     else:
         if request.method == 'POST':
             obj = request.get_json(silent=True)
-            possible_list = List.query.filter_by(name=obj, user_id=session.get('user')).first();
-            if possible_list is None or UserList.query.filter_by(list_id=possible_list.id, user_id=session.get('user')).first() is not None:
+            possible_list = List.query.filter(List.name.ilike(obj)).filter_by(user_id=session.get('user')).first();
+            if possible_list is None or  UserList.query.filter_by(list_id=possible_list.id, user_id=session.get('user')).first() is not None:
                 lst = List(obj, session.get('user'))
                 db.session.add(lst)
                 db.session.commit()
