@@ -80,7 +80,7 @@ def new_item_json():
                 price = abs(obj['price'])
                 quantity = int(abs(obj['quantity']))
                 item = Item(obj['name'], obj['list_id'], session.get('user'), price, quantity)
-                possibleItem = Item.query.filter_by(name=obj['name'], list_id=obj['list_id']).first()
+                possibleItem = Item.query.filter(Item.name.ilike(obj['name'])).filter_by(list_id=obj['list_id']).first()
                 if possibleItem is not None:
                     possibleItem.price = price
                     possibleItem.quantity = quantity + int(possibleItem.quantity)
