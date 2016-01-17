@@ -82,11 +82,16 @@ def new_item_json():
                 item = Item(obj['name'], obj['list_id'], session.get('user'), price, quantity)
                 possibleItem = Item.query.filter(Item.name.ilike(obj['name'])).filter_by(list_id=obj['list_id']).first()
                 if possibleItem is not None:
+                    #calls another item for some reason?!
+                    print possibleItem.name
+                    print possibleItem.list_id
+                    print possibleItem.quantity
                     possibleItem.price = price
                     possibleItem.quantity = quantity + int(possibleItem.quantity)
+                    print possibleItem.quantity
                 else:
                     db.session.add(item)
-            db.session.commit()
+                db.session.commit()
             return 'Success'
         else:
             return 'No JSON Object'
@@ -97,6 +102,7 @@ def delete_table_json(id):
         return "Credentials Not Found"
     else:
         if request.method == 'DELETE':
+            #Need to check if list is part of user_list AND move it somewhere else
             user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
             if user_list is None:
                 lst = List.query.filter_by(id=id).first() #investigate bug where it returns None
