@@ -14,8 +14,8 @@ def list():
         return jsonify(data=[i.serialize for i in lst])
     elif request.method == 'POST':
         obj = request.get_json(silent=True)
-        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj).filter_by(user_id == session.get('user')).first()
-        if possible_list is None:
+        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj)).filter_by(user_id == session.get('user')).first()
+        if lst is None:
             lst = List(obj, session.get('user'))
             db.session.add(lst)
             db.session.commit()
@@ -51,3 +51,11 @@ def shopping_list():
         user = session.get('user')
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.user_id == user).all()
         return jsonify(data=[i.serialize for i in lst])
+
+
+def check_users(shopping_list):
+    users = UserList.query.filter_by(list_id = shopping_list.list_id).all()
+    if users is None:
+        return False
+    else:
+        return True
