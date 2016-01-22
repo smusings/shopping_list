@@ -1,7 +1,7 @@
 import math
 from shoppingList import app, db
 """
-API for the Item Model used in our app
+Endpoints involving Item
 """
 
 @app.route('/item', methods=['POST'])

@@ -1,3 +1,8 @@
+import math
+from shoppingList import app, db
+"""
+Endpoints involving List
+"""
 
 @app.route('/list', methods=['GET','POST'])
 def list():
@@ -9,8 +14,8 @@ def list():
         return jsonify(data=[i.serialize for i in lst])
     elif request.method == 'POST':
         obj = request.get_json(silent=True)
-        possible_list = List.query.filter(List.name.ilike(obj)).filter_by(user_id=session.get('user')).first();
-        if possible_list is None or  UserList.query.filter_by(list_id=possible_list.id, user_id=session.get('user')).first() is not None:
+        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj).filter_by(user_id == session.get('user')).first()
+        if possible_list is None:
             lst = List(obj, session.get('user'))
             db.session.add(lst)
             db.session.commit()
