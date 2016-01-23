@@ -31,7 +31,6 @@ def delete_table_json(id):
         return "Credentials Not Found"
     else:
         if request.method == 'DELETE':
-            #Need to check if list is part of user_list AND move it somewhere else
             user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
             if user_list is None:
                 lst = List.query.filter_by(id=id).first() #investigate bug where it returns None

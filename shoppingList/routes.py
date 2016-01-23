@@ -96,38 +96,6 @@ def new_item_json():
         else:
             return 'No JSON Object'
 
-@app.route('/deleteTable.json/<int:id>', methods=['DELETE'])
-def delete_table_json(id):
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    else:
-        if request.method == 'DELETE':
-            #Need to check if list is part of user_list AND move it somewhere else
-            user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
-            if user_list is None:
-                lst = List.query.filter_by(id=id).first() #investigate bug where it returns None
-                db.session.delete(lst)
-            else:
-                db.session.delete(user_list)
-            db.session.commit()
-            return 'Removed!'
-        else:
-            return 'Wrong Call Type'
-
-@app.route('/deleteItem.json', methods=['POST'])
-def delete_item_json():
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    else:
-        if request.method == 'POST':
-            obj = request.get_json(silent=True)
-            item = Item.query.filter_by(id = obj).first()
-            db.session.delete(item)
-            db.session.commit()
-            return 'Success'
-        else:
-            return 'No JSON Object'
-
 @app.route('/registerUser', methods=['POST'])
 def register_user():
     user = User(request.form['email'], request.form['password'])

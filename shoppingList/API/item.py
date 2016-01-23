@@ -31,7 +31,7 @@ def item_json():
         return 'false method detected'
 
 @app.route('/item/<int:id>', methods=['DELETE'])
-def item_json(id):
+def delete_item_json(id):
     if not session.get('logged_in'):
         return "Credentials Not Found"
     elif request.method == 'DELETE':
