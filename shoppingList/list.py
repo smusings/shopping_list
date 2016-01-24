@@ -5,7 +5,7 @@ Endpoints involving List
 """
 
 @app.route('/list', methods=['GET','POST'])
-def list():
+def get_list():
     if not session.get('logged_in'):
         return "Credentials Not Found"
     elif request.method == 'GET':
