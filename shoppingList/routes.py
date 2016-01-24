@@ -13,7 +13,7 @@ def home():
         lst = []
         if session.get('user'):
             user = session.get('user')
-            lst = List.query.filter(List.user_id == user).all()
+            lst = UserList.query.filter(UserList.user_id == user).all()
         return render_template('shopping_lists.html', lists = lst)
 
 @app.route('/register')
