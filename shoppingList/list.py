@@ -1,5 +1,7 @@
 import math
+from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList import app, db
+from shoppingList.models import User, List, Item, UserList
 """
 Endpoints involving List
 """
@@ -48,7 +50,7 @@ def shopping_list():
         return "Credentials Not Found"
     else:
         user = session.get('user')
-        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.user_id == user).all()
+        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(UserList.user_id == user).all()
         return jsonify(data=[i.serialize for i in lst])
 
 
