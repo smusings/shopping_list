@@ -33,7 +33,7 @@ shoppingList.controller('listController', function($scope, $http){
 	{
 		if($scope.listName.length >= 1)
 		{
-			$http.post("/newList.json", JSON.stringify($scope.listName))
+			$http.post("/list", JSON.stringify($scope.listName))
 			.success(function(response)
 			{
 				alert(response);

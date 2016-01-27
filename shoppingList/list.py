@@ -16,7 +16,7 @@ def get_list():
         return jsonify(data=[i.serialize for i in lst])
     elif request.method == 'POST':
         obj = request.get_json(silent=True)
-        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj)).filter_by(user_id == session.get('user')).first()
+        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj)).filter(UserList.user_id == session.get('user')).first()
         if lst is None:
             lst = List(obj, session.get('user'))
             db.session.add(lst)
@@ -53,6 +53,12 @@ def shopping_list():
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(UserList.user_id == user).all()
         return jsonify(data=[i.serialize for i in lst])
 
+@app.route('/registerUser', methods=['POST'])
+def register_user():
+    user = User(request.form['email'], request.form['password'])
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 def check_users(shopping_list):
     users = UserList.query.filter_by(list_id = shopping_list.list_id).all()
