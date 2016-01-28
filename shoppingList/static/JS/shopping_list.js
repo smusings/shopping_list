@@ -4,7 +4,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.getData = function()
 	{
-		$http.get("/shoppingList.json")
+		$http.get("/list")
 		.success(function(response) {
 				$scope.shoppingList = response['data'];
 			});

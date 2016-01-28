@@ -12,14 +12,16 @@ def get_list():
         return "Credentials Not Found"
     elif request.method == 'GET':
         user = session.get('user')
-        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(UserList.user_id == user).all()
+        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter_by(user_id = user).all()
+        print lst
         return jsonify(data=[i.serialize for i in lst])
     elif request.method == 'POST':
         obj = request.get_json(silent=True)
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj)).filter(UserList.user_id == session.get('user')).first()
         if lst is None:
-            lst = List(obj, session.get('user'))
+            lst = List(obj)
             db.session.add(lst)
+            kst = List.query.filter_by()
             db.session.commit()
             return "Success"
         else:
