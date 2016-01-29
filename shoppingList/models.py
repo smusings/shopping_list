@@ -13,15 +13,18 @@ class User(db.Model):
 class List(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(255))
+	creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-	def __init__(self, name):
+	def __init__(self, name, creator):
 		self.name = name
+		self.creator_id = creator
 
 	@property
 	def serialize(self):
 		return {
 			'id' : self.id,
-			'name':self.name
+			'name':self.name,
+			'creator_id':self.creator_id
 		}
 
 class UserList(db.Model):

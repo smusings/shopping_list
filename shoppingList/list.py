@@ -19,9 +19,11 @@ def get_list():
         obj = request.get_json(silent=True)
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj)).filter(UserList.user_id == session.get('user')).first()
         if lst is None:
-            lst = List(obj)
+            lst = List(obj, session.get('user'))
             db.session.add(lst)
-            kst = List.query.filter_by()
+            kst = List.query.filter_by(creator_id = session.get('user')).first();
+            userList = UserList(session.get('user'), kst.id)
+            db.session.add(userList)
             db.session.commit()
             return "Success"
         else:
