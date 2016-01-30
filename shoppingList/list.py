@@ -13,7 +13,6 @@ def get_list():
     elif request.method == 'GET':
         user = session.get('user')
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter_by(user_id = user).all()
-        print lst
         return jsonify(data=[i.serialize for i in lst])
     elif request.method == 'POST':
         obj = request.get_json(silent=True)
@@ -38,14 +37,11 @@ def delete_table_json(id):
     else:
         if request.method == 'DELETE':
             user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
-            if user_list is None:
+            user_lists = UserList.query.filter_by(list_id=id).all()
+            if len(user_lists) <= 1:
                 lst = List.query.filter_by(id=id).first()
                 db.session.delete(lst)
-            else:
-                db.session.delete(user_list)
-                user_lists = UserList.query.filter_by(list_id=id).all()
-                if not user_list:
-                    db.session.delete(List.query.filter_by(id=id).first())
+            db.session.delete(user_list)
             db.session.commit()
             return 'Removed!'
         else:
