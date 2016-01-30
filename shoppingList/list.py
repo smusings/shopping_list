@@ -39,10 +39,13 @@ def delete_table_json(id):
         if request.method == 'DELETE':
             user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
             if user_list is None:
-                lst = List.query.filter_by(id=id).first() #investigate bug where it returns None
+                lst = List.query.filter_by(id=id).first()
                 db.session.delete(lst)
             else:
                 db.session.delete(user_list)
+                user_lists = UserList.query.filter_by(list_id=id).all()
+                if not user_list:
+                    db.session.delete(List.query.filter_by(id=id).first())
             db.session.commit()
             return 'Removed!'
         else:

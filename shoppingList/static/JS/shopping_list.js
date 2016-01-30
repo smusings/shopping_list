@@ -21,7 +21,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.delete_list= function(id)
 	{
-		$http.delete('/deleteTable.json/'+id)
+		$http.delete('/list/'+id)
 		.success(function(response)
 		{
 			alert(response);
