@@ -1,6 +1,7 @@
 import math
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList import app, db
+from shoppingList.models import User, List, Item, UserList
 """
 Endpoints involving Item
 """
@@ -17,7 +18,6 @@ def item_json():
             item = Item(obj['name'], obj['list_id'], session.get('user'), price, quantity)
             possibleItem = Item.query.filter(Item.name.ilike(obj['name'])).filter_by(list_id=obj['list_id']).first()
             if possibleItem is not None:
-                #calls another item for some reason?!
                 possibleItem.price = price
                 possibleItem.quantity = quantity + int(possibleItem.quantity)
             else:

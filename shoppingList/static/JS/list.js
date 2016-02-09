@@ -23,7 +23,7 @@ shoppingList.controller('listController', function($scope, $http){
 			'price': $scope.itemPrice
 		}];
 
-		$http.post('/newItem.json', $scope.newItem)
+		$http.post('/item', $scope.newItem)
 		.success(function(response)
 			{
 				alert(response);
@@ -34,7 +34,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.deleteItem = function(id)
 	{
-		$http.post('/deleteItem.json', id)
+		$http.post('/item', id)
 		.success(function(response)
 		{
 			alert(response);
@@ -45,7 +45,6 @@ shoppingList.controller('listController', function($scope, $http){
 	function clearField()
 	{
 		$scope.itemName = "";
-		$scope.listId = "";
 		$scope.itemQuantity = "";
 		$scope.itemPrice = "";
 	}
