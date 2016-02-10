@@ -34,7 +34,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.deleteItem = function(id)
 	{
-		$http.post('/item', id)
+		$http.delete('/item/'+id)
 		.success(function(response)
 		{
 			alert(response);

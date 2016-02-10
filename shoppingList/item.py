@@ -32,10 +32,10 @@ def delete_item_json(id):
     if not session.get('logged_in'):
         return "Credentials Not Found"
     elif request.method == 'DELETE':
-        obj = request.get_json(silent=True)
-        item = Item.query.filter_by(id = obj).first()
+        item = Item.query.filter_by(id = id).first()
         db.session.delete(item)
         db.session.commit()
+        return "Deleted"
     else:
         return 'false method detected'
 
