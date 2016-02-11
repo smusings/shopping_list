@@ -20,7 +20,7 @@ def get_list():
         if lst is None:
             lst = List(obj, session.get('user'))
             db.session.add(lst)
-            kst = List.query.filter_by(creator_id = session.get('user')).last();
+            kst = List.query.filter_by(creator_id = session.get('user')).order_by(List.id.desc()).first();
             userList = UserList(session.get('user'), kst.id)
             db.session.add(userList)
             db.session.commit()
