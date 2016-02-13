@@ -48,6 +48,4 @@ shoppingList.controller('listController', function($scope, $http){
 		$scope.itemQuantity = "";
 		$scope.itemPrice = "";
 	}
-
-
 });

@@ -23,7 +23,7 @@ def item_json():
             else:
                 db.session.add(item)
         db.session.commit()
-        return '200'
+        return 'Item Created'
     else:
         return 'false method detected'
 
