@@ -7,7 +7,7 @@
 		<input type="button" ng-click="submitList()" ng-show="listForm == true" value="Submit">
 		<ul class="lists">
 			<li ng-repeat="list in shoppingList"><a href="/list/{[list.id]}"><h3 style="display: initial">{[list.name]}</h3></a>
-			&nbsp;<input type="button" value="delete" ng-click="delete_list(list.id)"></li>
+			&nbsp;<input type="button" class="delete-btn" value="delete" ng-click="delete_list(list.id)"></li>
 		</ul>
 	</div>	
 	<script src="/static/JS/shopping_list.js"></script>

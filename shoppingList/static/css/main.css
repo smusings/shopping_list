@@ -1,0 +1,31 @@
+body {
+	background-color: #fff;
+	color: #000;
+}
+
+.page {
+	text-align: center;
+}
+
+ul {
+	list-style-type: none;
+}
+a {
+	color: #4DBCE9;
+
+}
+
+h2 {
+	color: #D1E751;
+}
+
+.delete-btn {
+	background-color: crimson;
+	color: white;
+	border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 0px;
+
+}
