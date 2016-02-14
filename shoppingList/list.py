@@ -24,7 +24,6 @@ def get_list():
             userList = UserList(session.get('user'), kst.id)
             db.session.add(userList)
             db.session.commit()
-            return "Success"
         else:
             return "List Already Created"
     else:
@@ -43,7 +42,6 @@ def delete_table_json(id):
                 db.session.delete(lst)
             db.session.delete(user_list)
             db.session.commit()
-            return 'Removed!'
         else:
             return 'Wrong Call Type'
 

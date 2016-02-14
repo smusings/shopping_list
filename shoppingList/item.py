@@ -23,7 +23,6 @@ def item_json():
             else:
                 db.session.add(item)
         db.session.commit()
-        return 'Item Created'
     else:
         return 'false method detected'
 
@@ -35,7 +34,6 @@ def delete_item_json(id):
         item = Item.query.filter_by(id = id).first()
         db.session.delete(item)
         db.session.commit()
-        return "Deleted"
     else:
         return 'false method detected'
 
