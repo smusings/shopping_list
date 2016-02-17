@@ -13,7 +13,7 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/main.css">
 	</HEAD>
 	<BODY>
-		<div class="header">Shopping List</div>
+		<div class="header">{% block header %}{% endblock %}</div>
 		<div class="page" ng-app="shoppingList">
 			{% block body %}{% endblock %}
 		</div>
