@@ -1,11 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-{% block content %}
   <form action="{{ url_for('login') }}" method=post>
     <div> Username: <input class="form-control" type="text" name="username"></div>
-    <div> Password: <input type="password" name="password"></div>
+    <div> Password: <input class="form-control" type="password" name="password"></div>
     <input type="submit" value="Login"> &nbsp;
     <a href="{{ url_for('register')}}">Register</a>
   </form>
-{% endblock %}
 {% endblock %}
