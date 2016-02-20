@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block header %}Your Lists{% endblock %}
-{% block body %}
+{% block content %}
 	<div ng-controller="listController">
 		<ul class="lists">
 			<li ng-repeat="list in shoppingList"><a href="/list/{[list.id]}"><h3 style="display: initial">{[list.name]}</h3></a>

@@ -7,6 +7,7 @@ shoppingList.controller('listController', function($scope, $http){
 		$http.get("/list")
 		.success(function(response) {
 				$scope.shoppingList = response['data'];
+				console.log("skre");
 			});
 	}
 
