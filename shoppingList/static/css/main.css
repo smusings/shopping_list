@@ -35,5 +35,10 @@ h2 {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border: 0px;
+}
 
+
+.form-control {
+	width: 150px;
+	display: initial;
 }
