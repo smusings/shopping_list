@@ -4,11 +4,11 @@
 	<div ng-controller="listController">
 		<ul class="lists">
 			<li ng-repeat="list in shoppingList"><a href="/list/{[list.id]}"><h3 style="display: initial">{[list.name]}</h3></a>
-			&nbsp;<input type="button" class="delete-btn" value="delete" ng-click="delete_list(list.id)"></li>
+			&nbsp;<button class="btn btn-danger glyphicon glyphicon-trash" type="button" class="delete-btn" ng-click="delete_list(list.id)"></button></li>
 		</ul>
-		<input type="button" ng-click="toggleForm()" value="New List" ng-show="listForm == false">
-		<input ng-show="listForm == true" ng-model="listName" class="text">
-		<input type="button" ng-click="submitList()" ng-show="listForm == true" value="Submit">
+		<button type="button" class="btn btn-default" ng-click="toggleForm()" ng-show="listForm == false">New List</button>
+		<input class="form-control" ng-show="listForm == true" ng-model="listName" class="text">
+		<button type="button" class="btn btn-default" ng-click="submitList()" ng-show="listForm == true">Submit</button>
 	</div>	
 	<script src="/static/JS/shopping_list.js"></script>
 {% endblock %}
