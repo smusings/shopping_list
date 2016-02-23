@@ -2,6 +2,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.list = []
 	$scope.listId = document.getElementById('listId').value
+	$scope.name;
 
 	$scope.getData = function()
 	{
@@ -13,6 +14,10 @@ shoppingList.controller('listController', function($scope, $http){
 	}
 
 	$scope.getData();
+
+	$http.get('/list/name/'+listId.value).success(function(response) {
+		document.getElementById('list_name').innerHTML = response.name
+	});
 
 	$scope.addItem = function()
 	{

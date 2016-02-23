@@ -29,21 +29,31 @@ def get_list():
     else:
         return'Bummer'
 
+@app.route('/list/name/<int:id>', methods=['GET'])
+def get_list_name(id):
+    if not session.get('logged_in'):
+        return "Credentials Not Found"
+    elif request.method == 'GET':
+        lst = List.query.filter_by(id=id).first()
+        return jsonify(name = lst.name)
+    else:
+        return 'Wrong Call Type'
+
+
 @app.route('/list/<int:id>', methods=['DELETE'])
 def delete_table_json(id):
     if not session.get('logged_in'):
         return "Credentials Not Found"
+    elif request.method == 'DELETE':
+        user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
+        user_lists = UserList.query.filter_by(list_id=id).all()
+        if len(user_lists) <= 1:
+            lst = List.query.filter_by(id=id).first()
+            db.session.delete(lst)
+        db.session.delete(user_list)
+        db.session.commit()
     else:
-        if request.method == 'DELETE':
-            user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
-            user_lists = UserList.query.filter_by(list_id=id).all()
-            if len(user_lists) <= 1:
-                lst = List.query.filter_by(id=id).first()
-                db.session.delete(lst)
-            db.session.delete(user_list)
-            db.session.commit()
-        else:
-            return 'Wrong Call Type'
+        return 'Wrong Call Type'
 
 @app.route('/shoppingList.json')
 def shopping_list():
