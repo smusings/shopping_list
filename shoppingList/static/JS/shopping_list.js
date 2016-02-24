@@ -4,7 +4,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.getData = function()
 	{
-		$http.get("/list")
+		$http.get("api/list")
 		.success(function(response) {
 				$scope.shoppingList = response['data'];
 				console.log("skre");
@@ -34,7 +34,7 @@ shoppingList.controller('listController', function($scope, $http){
 	{
 		if($scope.listName.length >= 1)
 		{
-			$http.post("/list", JSON.stringify($scope.listName))
+			$http.post("api/list", JSON.stringify($scope.listName))
 			.success(function(response)
 			{
 				alert(response);

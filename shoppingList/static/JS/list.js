@@ -15,7 +15,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.getData();
 
-	$http.get('/list/name/'+listId.value).success(function(response) {
+	$http.get('api/list/'+listId.value).success(function(response) {
 		document.getElementById('list_name').innerHTML = response.name
 	});
 
@@ -39,7 +39,7 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.deleteItem = function(id)
 	{
-		$http.delete('/item/'+id)
+		$http.delete('api/item/'+id)
 		.success(function(response)
 		{
 			alert(response);

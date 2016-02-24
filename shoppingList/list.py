@@ -6,7 +6,7 @@ from shoppingList.models import User, List, Item, UserList
 Endpoints involving List
 """
 
-@app.route('/list', methods=['GET','POST'])
+@app.route('/api/list', methods=['GET','POST'])
 def get_list():
     if not session.get('logged_in'):
         return "Credentials Not Found"
@@ -29,7 +29,7 @@ def get_list():
     else:
         return'Bummer'
 
-@app.route('/list/name/<int:id>', methods=['GET'])
+@app.route('/api/list/name/<int:id>', methods=['GET'])
 def get_list_name(id):
     if not session.get('logged_in'):
         return "Credentials Not Found"
@@ -40,10 +40,13 @@ def get_list_name(id):
         return 'Wrong Call Type'
 
 
-@app.route('/list/<int:id>', methods=['DELETE'])
+@app.route('/api/list/<int:id>', methods=['GET', 'DELETE'])
 def delete_table_json(id):
     if not session.get('logged_in'):
         return "Credentials Not Found"
+    elif request.method == 'GET':
+        lst = List.query.filter_by(id=id).first()
+        return jsonify(name = lst.name)
     elif request.method == 'DELETE':
         user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
         user_lists = UserList.query.filter_by(list_id=id).all()
@@ -55,7 +58,7 @@ def delete_table_json(id):
     else:
         return 'Wrong Call Type'
 
-@app.route('/shoppingList.json')
+@app.route('/api/shoppingList')
 def shopping_list():
     if not session.get('logged_in'):
         return "Credentials Not Found"
@@ -64,7 +67,7 @@ def shopping_list():
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(UserList.user_id == user).all()
         return jsonify(data=[i.serialize for i in lst])
 
-@app.route('/registerUser', methods=['POST'])
+@app.route('/api/registerUser', methods=['POST'])
 def register_user():
     user = User(request.form['email'], request.form['password'])
     db.session.add(user)

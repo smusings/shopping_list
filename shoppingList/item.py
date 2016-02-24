@@ -6,7 +6,7 @@ from shoppingList.models import User, List, Item, UserList
 Endpoints involving Item
 """
 
-@app.route('/item', methods=['POST'])
+@app.route('/api/item', methods=['POST'])
 def item_json():
     if not session.get('logged_in'):
         return "Credentials Not Found"
@@ -26,7 +26,7 @@ def item_json():
     else:
         return 'false method detected'
 
-@app.route('/item/<int:id>', methods=['DELETE'])
+@app.route('/api/item/<int:id>', methods=['DELETE'])
 def delete_item_json(id):
     if not session.get('logged_in'):
         return "Credentials Not Found"
@@ -37,7 +37,7 @@ def delete_item_json(id):
     else:
         return 'false method detected'
 
-@app.route('/list/item<int:id>')
+@app.route('/api/list/item<int:id>')
 def json_list(id):
     if not session.get('logged_in'):
         return jsonify(data="Credentials Not Found")
