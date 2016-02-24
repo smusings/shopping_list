@@ -4,26 +4,28 @@
 	<script src="/static/JS/list.js"></script>
 	<div ng-app="shoppingList" ng-controller="listController">
 		<input type="hidden" id="url" value="{{url_for('json_list', id = list_id)}}">
-			<input class="form-control" type='text' ng-model="itemName" name='name' placeholder='Item Name'>
-			<input class="form-control" type='number' ng-model="itemPrice" name='price' placeholder='Price'>
-			<input class="form-control" type='number' ng-model="itemQuantity" name='quantity' placeholder='Quantity'>
-			<input type='hidden' id="listId" name="list_id" value="{{ list_id }}">
-			<button class="btn btn-default" type="submit" ng-click="addItem()">Save</button>
+		<input class="form-control" type='text' ng-model="itemName" name='name' placeholder='Item Name'>
+		<input class="form-control" type='number' ng-model="itemPrice" name='price' placeholder='Price'>
+		<input class="form-control" type='number' ng-model="itemQuantity" name='quantity' placeholder='Quantity'>
+		<input type='hidden' id="listId" name="list_id" value="{{ list_id }}">
+		<button class="btn btn-default" type="submit" ng-click="addItem()">Save</button>
+		<div class="table-container">
 			<table class="table table-responsive table-striped table-bordered">
 				<thead>
-					<th>Name</th>
-					<th align=center>Price</th>
-					<th align=center>Quantity</th>
-					<th align=right>Action</th>
+					<th class="text-left">Name</th>
+					<th class="text-center">Price</th>
+					<th class="text-center">Quantity</th>
+					<th class="text-right">Action</th>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in list">
 						<td align=left>{[item.name]}</td>
 						<td>{[item.quantity]}</td>
 						<td>{[item.price | currency :"$"]}</td>
-						<td><button class="btn btn-danger glyphicon glyphicon-trash" type="button" ng-click="deleteItem(item.id)"></button></td>
+						<td align="right"><button class="btn btn-danger glyphicon glyphicon-trash" type="button" ng-click="deleteItem(item.id)"></button></td>
 					</tr>
 				</tbody>
 			</table>
+		</div>
 	</div>
 {% endblock %}
