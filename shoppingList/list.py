@@ -29,17 +29,6 @@ def get_list():
     else:
         return'Bummer'
 
-@app.route('/api/list/name/<int:id>', methods=['GET'])
-def get_list_name(id):
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    elif request.method == 'GET':
-        lst = List.query.filter_by(id=id).first()
-        return jsonify(name = lst.name)
-    else:
-        return 'Wrong Call Type'
-
-
 @app.route('/api/list/<int:id>', methods=['GET', 'DELETE'])
 def delete_table_json(id):
     if not session.get('logged_in'):
