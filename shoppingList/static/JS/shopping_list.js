@@ -47,4 +47,10 @@ shoppingList.controller('listController', function($scope, $http){
 			alert("Enter List Name!")
 		}
 	}
+
+	$scope.getList = function(id)
+	{
+		// Pass in an id, and get the content, then display it in content.
+		// This way you can keep everything on one app and save page reloads.
+	}
 });

@@ -2,13 +2,20 @@
 {% block header %}Your Lists{% endblock %}
 {% block content %}
 	<div ng-controller="listController">
-		<ul class="lists">
-			<li ng-repeat="list in shoppingList"><a href="/list/{[list.id]}"><h3 style="display: initial">{[list.name]}</h3></a>
-			&nbsp;<button class="btn btn-danger glyphicon glyphicon-trash" type="button" class="delete-btn" ng-click="delete_list(list.id)"></button></li>
-		</ul>
-		<button type="button" class="btn btn-default" ng-click="toggleForm()" ng-show="listForm == false">New List</button>
-		<input class="form-control" ng-show="listForm == true" ng-model="listName" class="text">
-		<button type="button" class="btn btn-default" ng-click="submitList()" ng-show="listForm == true">Submit</button>
+		<div class="col-md-6 text-left">
+			<ul class="lists">
+				<li ng-repeat="list in shoppingList">
+					<button class="btn btn-danger glyphicon glyphicon-trash" type="button" class="delete-btn" ng-click="delete_list(list.id)"></button>
+					&nbsp;
+					<a href="/list/{[list.id]}"><h3 style="display: initial">{[list.name]}</h3></a>
+				</li>
+			</ul>
+			<button type="button" class="btn btn-default" ng-click="toggleForm()" ng-show="listForm == false">New List</button>
+			<input class="form-control" ng-show="listForm == true" ng-model="listName" class="text">
+			<button type="button" class="btn btn-default" ng-click="submitList()" ng-show="listForm == true">Submit</button>
+		</div>
+		<div class="col-md-6" id="content">
+		</div>
 	</div>	
 	<script src="/static/JS/shopping_list.js"></script>
 {% endblock %}
