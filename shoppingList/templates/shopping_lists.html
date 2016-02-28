@@ -2,7 +2,7 @@
 {% block header %}Your Lists{% endblock %}
 {% block content %}
 	<div ng-controller="listController">
-		<div class="col-md-6 text-left">
+		<div id="list-container" >
 			<ul class="lists">
 				<li ng-repeat="list in shoppingList">
 					<button class="btn btn-danger glyphicon glyphicon-trash" type="button" class="delete-btn" ng-click="delete_list(list.id)"></button>
@@ -14,8 +14,25 @@
 			<input class="form-control" ng-show="listForm == true" ng-model="listName" class="text">
 			<button type="button" class="btn btn-default" ng-click="submitList()" ng-show="listForm == true">Submit</button>
 		</div>
-		<div class="col-md-6" id="content">
-			{[ items ]}
+		<div ng-if="items != null" class="col-md-6" id="content">
+			<div class="table-container">
+				<table class="table table-responsive table-striped table-bordered">
+					<thead>
+						<th class="text-left">Name</th>
+						<th class="text-center">Price</th>
+						<th class="text-center">Quantity</th>
+						<th class="text-right">Action</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in items">
+							<td align=left>{[item.name]}</td>
+							<td>{[item.quantity]}</td>
+							<td>{[item.price | currency :"$"]}</td>
+							<td align="right"><button class="btn btn-danger glyphicon glyphicon-trash" type="button" ng-click="deleteItem(item.id)"></button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>	
 	<script src="/static/JS/shopping_list.js"></script>

@@ -1,4 +1,3 @@
-from flask.ext.sqlalchemy import SQLAlchemy
 from shoppingList import db
 
 class User(db.Model):

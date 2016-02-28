@@ -1,7 +1,7 @@
 shoppingList.controller('listController', function($scope, $http){
 
 	$scope.shoppingList = []
-	$scope.items = []
+	$scope.items;
 
 	$scope.getData = function()
 	{
@@ -51,9 +51,12 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.getList = function(id)
 	{
+		var listContainer = document.getElementById("list-container");
+
 		$http.get("/api/list/item"+id)
 		.success(function(response) {
 				$scope.items = response['data'];
+				listContainer.className = "col-md-6 text-left";
 			});
 		// Pass in an id, and get the content, then display it in content.
 		// This way you can keep everything on one app and save page reloads.
