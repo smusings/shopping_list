@@ -7,7 +7,7 @@
 				<li ng-repeat="list in shoppingList">
 					<button class="btn btn-danger glyphicon glyphicon-trash" type="button" class="delete-btn" ng-click="delete_list(list.id)"></button>
 					&nbsp;
-					<a href="/list/{[list.id]}"><h3 style="display: initial">{[list.name]}</h3></a>
+					<a ng-click="getList(list.id)"><h3 style="display: initial">{[list.name]}</h3></a>
 				</li>
 			</ul>
 			<button type="button" class="btn btn-default" ng-click="toggleForm()" ng-show="listForm == false">New List</button>
@@ -15,6 +15,7 @@
 			<button type="button" class="btn btn-default" ng-click="submitList()" ng-show="listForm == true">Submit</button>
 		</div>
 		<div class="col-md-6" id="content">
+			{[ items ]}
 		</div>
 	</div>	
 	<script src="/static/JS/shopping_list.js"></script>
