@@ -2,6 +2,11 @@ shoppingList.controller('listController', function($scope, $http){
 
 	$scope.shoppingList = []
 	$scope.items;
+	$scope.listId;
+	$scope.itemName;
+	$scope.itemQuantity;
+	$scope.itemPrice;
+
 
 	$scope.getData = function()
 	{
@@ -57,8 +62,40 @@ shoppingList.controller('listController', function($scope, $http){
 		.success(function(response) {
 				$scope.items = response['data'];
 				listContainer.className = "col-md-6 text-left";
+				$scope.listId = id;
+				clearField();
 			});
-		// Pass in an id, and get the content, then display it in content.
-		// This way you can keep everything on one app and save page reloads.
+	}
+
+	$scope.addItem = function()
+	{
+		var newItem = [{
+			'name': $scope.itemName,
+			'list_id': $scope.listId,
+			'quantity': $scope.itemQuantity,
+			'price': $scope.itemPrice
+		}];
+
+		console.log(newItem);
+
+		$http.post('/api/item', newItem)
+		.success(function(response)
+			{
+				alert(response);
+				$scope.getData();
+				clearField();
+			})
+		.error(function(response)
+			{
+				console.log(response);
+			});
+	}
+
+
+	function clearField()
+	{
+		$scope.itemName = "";
+		$scope.itemQuantity = "";
+		$scope.itemPrice = "";
 	}
 });

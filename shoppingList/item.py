@@ -13,6 +13,7 @@ def item_json():
     elif request.method == 'POST':
         json_list = request.get_json(silent=True)
         for obj in json_list:
+            print obj
             price = abs(obj['price'])
             quantity = int(abs(obj['quantity']))
             item = Item(obj['name'], obj['list_id'], session.get('user'), price, quantity)
