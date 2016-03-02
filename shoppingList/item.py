@@ -24,6 +24,7 @@ def item_json():
             else:
                 db.session.add(item)
         db.session.commit()
+        return "Saved"
     else:
         return 'false method detected'
 

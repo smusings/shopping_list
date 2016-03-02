@@ -3,9 +3,6 @@ shoppingList.controller('listController', function($scope, $http){
 	$scope.shoppingList = []
 	$scope.items;
 	$scope.listId;
-	$scope.itemName;
-	$scope.itemQuantity;
-	$scope.itemPrice;
 
 
 	$scope.getData = function()
@@ -13,7 +10,6 @@ shoppingList.controller('listController', function($scope, $http){
 		$http.get("api/list")
 		.success(function(response) {
 				$scope.shoppingList = response['data'];
-				console.log("skre");
 			});
 	}
 
@@ -67,16 +63,14 @@ shoppingList.controller('listController', function($scope, $http){
 			});
 	}
 
-	$scope.addItem = function()
+	$scope.addItem = function(item, quantity, price)
 	{
 		var newItem = [{
-			'name': $scope.itemName,
+			'name': item,
 			'list_id': $scope.listId,
-			'quantity': $scope.itemQuantity,
-			'price': $scope.itemPrice
+			'quantity': quantity,
+			'price': price
 		}];
-
-		console.log(newItem);
 
 		$http.post('/api/item', newItem)
 		.success(function(response)
