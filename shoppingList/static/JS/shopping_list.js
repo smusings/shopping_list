@@ -76,12 +76,7 @@ shoppingList.controller('listController', function($scope, $http){
 		.success(function(response)
 			{
 				alert(response);
-				$scope.getData();
-				clearField();
-			})
-		.error(function(response)
-			{
-				console.log(response);
+				$scope.getList($scope.listId);
 			});
 	}
 
