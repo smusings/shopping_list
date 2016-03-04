@@ -4,7 +4,6 @@ shoppingList.controller('listController', function($scope, $http){
 	$scope.items;
 	$scope.listId;
 
-
 	$scope.getData = function()
 	{
 		$http.get("api/list")
@@ -57,7 +56,7 @@ shoppingList.controller('listController', function($scope, $http){
 		$http.get("/api/list/item"+id)
 		.success(function(response) {
 				$scope.items = response['data'];
-				listContainer.className = "col-md-6 text-left";
+				listContainer.className = "col-md-3 text-right";
 				$scope.listId = id;
 				clearField();
 			});

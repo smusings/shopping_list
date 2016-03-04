@@ -5,9 +5,9 @@
 		<div id="list-container" >
 			<ul class="lists">
 				<li ng-repeat="list in shoppingList">
-					<button class="btn btn-danger glyphicon glyphicon-trash" type="button" class="delete-btn" ng-click="delete_list(list.id)"></button>
-					&nbsp;
 					<a ng-click="getList(list.id)"><h3 style="display: initial">{[list.name]}</h3></a>
+					&nbsp;
+					<button class="btn btn-danger glyphicon glyphicon-trash" type="button" class="delete-btn" ng-click="delete_list(list.id)"></button>
 				</li>
 			</ul>
 			<button type="button" class="btn btn-default" ng-click="toggleForm()" ng-show="listForm == false">New List</button>
