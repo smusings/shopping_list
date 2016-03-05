@@ -24,8 +24,14 @@ def get_list():
             userList = UserList(session.get('user'), kst.id)
             db.session.add(userList)
             db.session.commit()
-        else:
-            return "List Already Created"
+
+        message = {
+            'status': 201,
+            'message': 'Created: '+request.url,
+        }
+        resp = jsonify(message)
+        resp.status_code = 201
+        return resp
     else:
         return'Bummer'
 
@@ -44,6 +50,14 @@ def delete_table_json(id):
             db.session.delete(lst)
         db.session.delete(user_list)
         db.session.commit()
+
+        message = {
+            'status': 201,
+            'message': 'Created: '+request.url,
+        }
+        resp = jsonify(message)
+        resp.status_code = 201
+        return resp
     else:
         return 'Wrong Call Type'
 
