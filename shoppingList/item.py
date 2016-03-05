@@ -24,7 +24,14 @@ def item_json():
             else:
                 db.session.add(item)
         db.session.commit()
-        return "Saved"
+
+        message = {
+            'status': 201,
+            'message': 'Created: '+request.url,
+        }
+        resp = jsonify(message)
+        resp.status_code = 404
+        return resp
     else:
         return 'false method detected'
 
