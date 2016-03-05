@@ -30,10 +30,16 @@ def item_json():
             'message': 'Created: '+request.url,
         }
         resp = jsonify(message)
-        resp.status_code = 404
+        resp.status_code = 201
         return resp
     else:
-        return 'false method detected'
+        message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }
+        resp = jsonify(message)
+        resp.status_code = 501
+        return resp
 
 @app.route('/api/item/<int:id>', methods=['DELETE'])
 def delete_item_json(id):
@@ -43,13 +49,35 @@ def delete_item_json(id):
         item = Item.query.filter_by(id = id).first()
         db.session.delete(item)
         db.session.commit()
-    else:
-        return 'false method detected'
 
-@app.route('/api/list/item<int:id>')
+        message = {
+            'status': 204,
+            'message': 'Deleted',
+        }
+        resp = jsonify(message)
+        resp.status_code = 204
+        return resp
+    else:
+        message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }
+        resp = jsonify(message)
+        resp.status_code = 501
+        return resp
+
+@app.route('/api/list/item<int:id>', methods=['GET'])
 def json_list(id):
     if not session.get('logged_in'):
         return jsonify(data="Credentials Not Found")
     else:
         items = Item.query.filter_by(list_id = id).all()
         return jsonify(data=[i.serialize for i in items])
+    else:
+        message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }
+        resp = jsonify(message)
+        resp.status_code = 501
+        return resp
