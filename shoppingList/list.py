@@ -13,7 +13,7 @@ def get_list():
     elif request.method == 'GET':
         user = session.get('user')
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter_by(user_id = user).all()
-        return jsonify(data=[i.serialize for i in lst])
+        return jsonify(data=[i.serialize for i in lst]), 201
     elif request.method == 'POST':
         obj = request.get_json(silent=True)
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj)).filter(UserList.user_id == session.get('user')).first()
@@ -41,7 +41,7 @@ def delete_table_json(id):
         return "Credentials Not Found"
     elif request.method == 'GET':
         lst = List.query.filter_by(id=id).first()
-        return jsonify(name = lst.name)
+        return jsonify(name = lst.name), 201
     elif request.method == 'DELETE':
         user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
         user_lists = UserList.query.filter_by(list_id=id).all()

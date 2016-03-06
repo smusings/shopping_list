@@ -43,6 +43,7 @@ def item_json():
 
 @app.route('/api/item/<int:id>', methods=['DELETE'])
 def delete_item_json(id):
+    resp = ""
     if not session.get('logged_in'):
         return "Credentials Not Found"
     elif request.method == 'DELETE':
@@ -54,30 +55,27 @@ def delete_item_json(id):
             'status': 204,
             'message': 'Deleted',
         }
-        resp = jsonify(message)
-        resp.status_code = 204
-        return resp
+        resp = jsonify(message), 204
     else:
         message = {
             'status': 501,
             'message': 'Not Implimented',
         }
-        resp = jsonify(message)
-        resp.status_code = 501
-        return resp
+        resp = jsonify(message), 501
+    return resp
 
 @app.route('/api/list/item<int:id>', methods=['GET'])
 def json_list(id):
+    resp = ""
     if not session.get('logged_in'):
         return jsonify(data="Credentials Not Found")
-    else:
+    elif request.method == 'GET':
         items = Item.query.filter_by(list_id = id).all()
-        return jsonify(data=[i.serialize for i in items])
+        resp = jsonify(data=[i.serialize for i in items]), 201
     else:
         message = {
             'status': 501,
             'message': 'Not Implimented',
         }
-        resp = jsonify(message)
-        resp.status_code = 501
-        return resp
+        jsonify(message), 501
+    return resp
