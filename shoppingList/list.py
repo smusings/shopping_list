@@ -30,18 +30,16 @@ def get_list():
             'message': 'Created: '+request.url,
         }
         resp = jsonify(message)
-        resp.status_code = 201
-        return resp
+        return resp, 201
     else:
         return'Bummer'
 
 @app.route('/api/list/<int:id>', methods=['GET', 'DELETE'])
 def delete_table_json(id):
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    elif request.method == 'GET':
+    resp = ""
+    if request.method == 'GET':
         lst = List.query.filter_by(id=id).first()
-        return jsonify(name = lst.name), 201
+        resp = jsonify(name = lst.name), 201
     elif request.method == 'DELETE':
         user_list = UserList.query.filter_by(user_id=session.get('user'), list_id=id).first()
         user_lists = UserList.query.filter_by(list_id=id).all()
@@ -57,18 +55,19 @@ def delete_table_json(id):
         }
         resp = jsonify(message)
         resp.status_code = 201
-        return resp
     else:
-        return 'Wrong Call Type'
+        message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }
+        resp = jsonify(message), 501
+    return resp
 
 @app.route('/api/shoppingList')
 def shopping_list():
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    else:
-        user = session.get('user')
-        lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(UserList.user_id == user).all()
-        return jsonify(data=[i.serialize for i in lst])
+    user = session.get('user')
+    lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(UserList.user_id == user).all()
+    return jsonify(data=[i.serialize for i in lst]), 201
 
 @app.route('/api/registerUser', methods=['POST'])
 def register_user():
