@@ -2,7 +2,7 @@
 {% block header %}Your Lists{% endblock %}
 {% block content %}
 	<div ng-controller="listController">
-		<div id="list-container" >
+		<div id="list-container" class="lists">
 			<ul class="lists">
 				<li ng-repeat="list in shoppingList">
 					<a ng-click="getList(list.id)"><h3 style="display: initial">{[list.name]}</h3></a>

@@ -42,6 +42,13 @@ h2 {
 	margin-right: 20px;
 }
 
+.lists {
+	overflow-y: scroll;
+}
+
+.col-md-6, .col-md-3 {
+	display: inline-table;
+}
 
 .form-control {
 	width: 150px;
