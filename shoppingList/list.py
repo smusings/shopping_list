@@ -8,12 +8,11 @@ Endpoints involving List
 
 @app.route('/api/list', methods=['GET','POST'])
 def get_list():
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    elif request.method == 'GET':
+    resp = ""
+    if request.method == 'GET':
         user = session.get('user')
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter_by(user_id = user).all()
-        return jsonify(data=[i.serialize for i in lst]), 201
+        resp = jsonify(data=[i.serialize for i in lst]), 201
     elif request.method == 'POST':
         obj = request.get_json(silent=True)
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(List.name.ilike(obj)).filter(UserList.user_id == session.get('user')).first()
@@ -29,10 +28,14 @@ def get_list():
             'status': 201,
             'message': 'Created: '+request.url,
         }
-        resp = jsonify(message)
-        return resp, 201
+        resp = jsonify(message), 201
     else:
-        return'Bummer'
+        message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }
+        resp = jsonify(message), 501
+    return resp
 
 @app.route('/api/list/<int:id>', methods=['GET', 'DELETE'])
 def delete_table_json(id):

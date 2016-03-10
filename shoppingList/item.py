@@ -8,9 +8,8 @@ Endpoints involving Item
 
 @app.route('/api/item', methods=['POST'])
 def item_json():
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    elif request.method == 'POST':
+    resp = ""
+    if request.method == 'POST':
         json_list = request.get_json(silent=True)
         for obj in json_list:
             print obj
@@ -29,24 +28,19 @@ def item_json():
             'status': 201,
             'message': 'Created: '+request.url,
         }
-        resp = jsonify(message)
-        resp.status_code = 201
-        return resp
+        resp = jsonify(message), 201
     else:
         message = {
             'status': 501,
             'message': 'Not Implimented',
         }
-        resp = jsonify(message)
-        resp.status_code = 501
-        return resp
+        resp = jsonify(message), 501
+    return resp
 
 @app.route('/api/item/<int:id>', methods=['DELETE'])
 def delete_item_json(id):
     resp = ""
-    if not session.get('logged_in'):
-        return "Credentials Not Found"
-    elif request.method == 'DELETE':
+    if request.method == 'DELETE':
         item = Item.query.filter_by(id = id).first()
         db.session.delete(item)
         db.session.commit()
