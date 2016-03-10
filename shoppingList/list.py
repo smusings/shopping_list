@@ -1,12 +1,13 @@
 import math
 from flask import render_template, request, redirect, url_for, session, jsonify
-from shoppingList import app, db
+from shoppingList import app, db, auth
 from shoppingList.models import User, List, Item, UserList
 """
 Endpoints involving List
 """
 
 @app.route('/api/list', methods=['GET','POST'])
+@auth.login_required
 def get_list():
     resp = ""
     if request.method == 'GET':
