@@ -1,4 +1,5 @@
-from shoppingList import db
+from shoppingList import db, auth
+
 
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key = True)

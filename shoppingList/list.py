@@ -39,6 +39,7 @@ def get_list():
     return resp
 
 @app.route('/api/list/<int:id>', methods=['GET', 'DELETE'])
+@auth.login_required
 def delete_table_json(id):
     resp = ""
     if request.method == 'GET':
@@ -68,12 +69,14 @@ def delete_table_json(id):
     return resp
 
 @app.route('/api/shoppingList')
+@auth.login_required
 def shopping_list():
     user = session.get('user')
     lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter(UserList.user_id == user).all()
     return jsonify(data=[i.serialize for i in lst]), 201
 
 @app.route('/api/registerUser', methods=['POST'])
+@auth.login_required
 def register_user():
     user = User(request.form['email'], request.form['password'])
     db.session.add(user)

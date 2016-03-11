@@ -1,9 +1,23 @@
 import math
-from shoppingList import app, db
+from shoppingList import app, db, auth
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
 from shoppingList.item import item_json, delete_item_json, json_list
 from shoppingList.list import get_list, delete_table_json, shopping_list
+
+# Auth
+@auth.get_password
+def get_password(email):
+    print email
+    users = User.query.filter_by(email=email).first()
+    if users is not None:
+        return users.password
+    return None
+
+@auth.error_handler
+def unauthorized():
+    print "Skree"
+    return jsonify({'error': 'Unauthorized access'}), 401
 
 @app.route('/')
 def home():

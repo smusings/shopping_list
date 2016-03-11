@@ -8,6 +8,7 @@ Endpoints involving Item
 
 
 @app.route('/api/item', methods=['POST'])
+@auth.login_required
 def item_json():
     resp = ""
     if request.method == 'POST':
@@ -39,6 +40,7 @@ def item_json():
     return resp
 
 @app.route('/api/item/<int:id>', methods=['DELETE'])
+@auth.login_required
 def delete_item_json(id):
     resp = ""
     if request.method == 'DELETE':
@@ -60,6 +62,7 @@ def delete_item_json(id):
     return resp
 
 @app.route('/api/list/item<int:id>', methods=['GET'])
+@auth.login_required
 def json_list(id):
     resp = ""
     if not session.get('logged_in'):
