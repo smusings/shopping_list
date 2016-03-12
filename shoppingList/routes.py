@@ -8,7 +8,6 @@ from shoppingList.list import get_list, delete_table_json, shopping_list
 # Auth
 @auth.get_password
 def get_password(email):
-    print email
     users = User.query.filter_by(email=email).first()
     if users is not None:
         return users.password

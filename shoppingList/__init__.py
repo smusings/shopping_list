@@ -17,4 +17,11 @@ app.config.from_object('shoppingList.config')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+def not_implimented():
+    resp = jsonify(message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }), 501
+    return resp
+
 import shoppingList.routes

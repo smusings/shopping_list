@@ -1,16 +1,10 @@
 import math
 from flask import render_template, request, redirect, url_for, session, jsonify
-from shoppingList import app, db, auth
+from shoppingList import app, db, auth, not_implimented
 from shoppingList.models import User, List, Item, UserList
 """
 Endpoints involving List
 """
-def not_implimented():
-    resp = jsonify(message = {
-            'status': 501,
-            'message': 'Not Implimented',
-        }), 501
-    return resp
 
 @app.route('/api/list', methods=['GET','POST'])
 @auth.login_required
