@@ -5,11 +5,17 @@ from shoppingList.models import User, List, Item, UserList
 """
 Endpoints involving List
 """
+def not_implimented():
+    resp = jsonify(message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }), 501
+    return resp
 
 @app.route('/api/list', methods=['GET','POST'])
 @auth.login_required
 def get_list():
-    resp = ""
+    resp = not_implimented()
     if request.method == 'GET':
         user = session.get('user')
         lst = List.query.outerjoin(UserList, List.id == UserList.list_id).filter_by(user_id = user).all()
@@ -30,18 +36,12 @@ def get_list():
             'message': 'Created: '+request.url,
         }
         resp = jsonify(message), 201
-    else:
-        message = {
-            'status': 501,
-            'message': 'Not Implimented',
-        }
-        resp = jsonify(message), 501
     return resp
 
 @app.route('/api/list/<int:id>', methods=['GET', 'DELETE'])
 @auth.login_required
 def delete_table_json(id):
-    resp = ""
+    resp = not_implimented()
     if request.method == 'GET':
         lst = List.query.filter_by(id=id).first()
         resp = jsonify(name = lst.name), 201
@@ -60,12 +60,6 @@ def delete_table_json(id):
         }
         resp = jsonify(message)
         resp.status_code = 201
-    else:
-        message = {
-            'status': 501,
-            'message': 'Not Implimented',
-        }
-        resp = jsonify(message), 501
     return resp
 
 @app.route('/api/shoppingList')

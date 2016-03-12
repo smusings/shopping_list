@@ -5,12 +5,17 @@ from shoppingList.models import User, List, Item, UserList
 """
 Endpoints involving Item
 """
-
+def not_implimented():
+    resp = jsonify(message = {
+            'status': 501,
+            'message': 'Not Implimented',
+        }), 501
+    return resp
 
 @app.route('/api/item', methods=['POST'])
 @auth.login_required
 def item_json():
-    resp = ""
+    resp = not_implimented()
     if request.method == 'POST':
         json_list = request.get_json(silent=True)
         for obj in json_list:
@@ -31,18 +36,12 @@ def item_json():
             'message': 'Created: '+request.url,
         }
         resp = jsonify(message), 201
-    else:
-        message = {
-            'status': 501,
-            'message': 'Not Implimented',
-        }
-        resp = jsonify(message), 501
     return resp
 
 @app.route('/api/item/<int:id>', methods=['DELETE'])
 @auth.login_required
 def delete_item_json(id):
-    resp = ""
+    resp = not_implimented()
     if request.method == 'DELETE':
         item = Item.query.filter_by(id = id).first()
         db.session.delete(item)
@@ -53,27 +52,15 @@ def delete_item_json(id):
             'message': 'Deleted',
         }
         resp = jsonify(message), 204
-    else:
-        message = {
-            'status': 501,
-            'message': 'Not Implimented',
-        }
-        resp = jsonify(message), 501
     return resp
 
 @app.route('/api/list/item<int:id>', methods=['GET'])
 @auth.login_required
 def json_list(id):
-    resp = ""
+    resp = not_implimented()
     if not session.get('logged_in'):
         return jsonify(data="Credentials Not Found")
     elif request.method == 'GET':
         items = Item.query.filter_by(list_id = id).all()
         resp = jsonify(data=[i.serialize for i in items]), 201
-    else:
-        message = {
-            'status': 501,
-            'message': 'Not Implimented',
-        }
-        jsonify(message), 501
     return resp

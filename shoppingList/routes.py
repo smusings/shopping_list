@@ -16,9 +16,9 @@ def get_password(email):
 
 @auth.error_handler
 def unauthorized():
-    print "Skree"
     return jsonify({'error': 'Unauthorized access'}), 401
 
+# Routes
 @app.route('/')
 def home():
     if not session.get('logged_in'):
