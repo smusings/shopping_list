@@ -1,9 +1,11 @@
 import math
+import requests
 from shoppingList import app, db, auth
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
 from shoppingList.item import item_json, delete_item_json, json_list
 from shoppingList.list import get_list, delete_table_json, shopping_list
+from requests.auth import HTTPBasicAuth
 
 # Auth
 @auth.get_password
@@ -47,8 +49,13 @@ def view_list(id):
     else:
         return render_template('list.html', list_id = id)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
+    requests.post('http://127.0.0.1:5000/loginAuth', auth=(request.form['username'], request.form['password']))
+
+@app.route('/loginAuth', methods=['POST'])
+@auth.login_required
+def auth_login():
     user = User.query.filter_by(email=request.form['username']).first()
     error = None
     if request.method == 'POST':
@@ -60,6 +67,10 @@ def login():
             elif request.form['username'] == user.email and request.form['password'] == user.password:
                 session['logged_in'] = True
                 session['user'] = user.id
+                
+                get_password(request.form['username'])
+
+
                 return redirect(url_for('home'))
         return render_template('login.html', error = error)
 
