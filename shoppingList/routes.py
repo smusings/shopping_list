@@ -1,6 +1,6 @@
 import math
 import requests
-from shoppingList import app, db, auth
+from shoppingList import app, db, auth, not_implimented
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
 from shoppingList.item import item_json, delete_item_json, json_list
@@ -49,18 +49,19 @@ def view_list(id):
     else:
         return render_template('list.html', list_id = id)
 
+# @app.route('/login', methods=['POST'])
+# def login():
+#     username = request.form['username']
+#     password = request.form['password']
+#     response = requests.post(url_for(auth_login(username, password)), data={}, auth=(username, password))
+#     if response.status_code == 200:
+#         return render_template('Home.html')
+
 @app.route('/login', methods=['POST'])
 def login():
+    resp = not_implimented()
     username = request.form['username']
     password = request.form['password']
-    response = requests.post(url_for(auth_login(username, password)), data={}, auth=(username, password))
-    if response.status_code == 200:
-        return render_template('Home.html')
-
-@app.route('/loginAuth', methods=['POST'])
-@auth.login_required
-def auth_login(username, password):
-    resp = not_implimented()
     user = User.query.filter_by(email=username).first()
     if request.method == 'POST':
         if user is None:
