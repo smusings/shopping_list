@@ -53,25 +53,35 @@ def view_list(id):
 def login():
     username = request.form['username']
     password = request.form['password']
-    print requests.post(url_for(auth_login(username, password)), auth=(username, password))
-    return render_template('Home.html')
+    response = requests.post(url_for(auth_login(username, password)), data={}, auth=(username, password))
+    if response.status_code == 200:
+        return render_template('Home.html')
 
 @app.route('/loginAuth', methods=['POST'])
 @auth.login_required
 def auth_login(username, password):
-    print "SKREEEE"
+    resp = not_implimented()
     user = User.query.filter_by(email=username).first()
-    error = None
     if request.method == 'POST':
         if user is None:
-            error = 'Invalid Email'
+            resp = jsonify(message= {
+                'status': 400,
+                'message':"User Not Found",
+            }),400
         else:
             if password != user.password:
-                error = 'Invalid Password'
+                resp = jsonify(message= {
+                    'status': 400,
+                    'message':"Wrong Password",
+                }),400
             elif username == user.email and password == user.password:
                 session['logged_in'] = True
                 session['user'] = user.id
-    return jsonify("Done!"), 200
+                resp = jsonify(message= {
+                    'status': 200,
+                    'message':"Logged In!",
+                }),200
+    return resp
 
 @app.route('/logout')
 def logout():
