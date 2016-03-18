@@ -19,6 +19,12 @@ def get_password(email):
 def unauthorized():
     return jsonify({'error': 'Unauthorized access'}), 401
 
+@auth.verify_token
+def verify_token(token):
+    print token
+    g.current_user = User.query.filter_by(token=token).first()
+    return g.current_user is not None
+
 # Routes
 @app.route('/')
 def home():
@@ -49,40 +55,21 @@ def view_list(id):
     else:
         return render_template('list.html', list_id = id)
 
-# @app.route('/login', methods=['POST'])
-# def login():
-#     username = request.form['username']
-#     password = request.form['password']
-#     response = requests.post(url_for(auth_login(username, password)), data={}, auth=(username, password))
-#     if response.status_code == 200:
-#         return render_template('Home.html')
-
 @app.route('/login', methods=['POST'])
 def login():
-    resp = not_implimented()
-    username = request.form['username']
-    password = request.form['password']
-    user = User.query.filter_by(email=username).first()
+    user = User.query.filter_by(email=request.form['username']).first()
+    error = None
     if request.method == 'POST':
         if user is None:
-            resp = jsonify(message= {
-                'status': 400,
-                'message':"User Not Found",
-            }),400
+            error = 'Invalid Email'
         else:
-            if password != user.password:
-                resp = jsonify(message= {
-                    'status': 400,
-                    'message':"Wrong Password",
-                }),400
-            elif username == user.email and password == user.password:
+            if request.form['password'] != user.password:
+                error = 'Invalid Password'
+            elif request.form['username'] == user.email and request.form['password'] == user.password:
                 session['logged_in'] = True
                 session['user'] = user.id
-                resp = jsonify(message= {
-                    'status': 200,
-                    'message':"Logged In!",
-                }),200
-    return resp
+                return redirect(url_for('home'))
+        return render_template('login.html', error = error)
 
 @app.route('/logout')
 def logout():

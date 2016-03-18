@@ -5,7 +5,8 @@ from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from flask.ext.mail import Mail
 from flask_bootstrap import Bootstrap
-from flask.ext.httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPTokenAuth
 
 app = Flask(__name__)
 mail = Mail(app)
