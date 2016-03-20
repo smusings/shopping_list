@@ -71,6 +71,32 @@ def register_user():
     db.session.commit()
     return redirect(url_for('home'))
 
+@app.route('/api/shareList', methods=['POST'])
+@auth.login_required
+def share_list():
+    resp = None
+    json_list = request.get_json(silent=True)
+    for obj in json_list:
+        id=obj['id']
+        email = obj['email']
+        target = User.query.filter_by(email = email).first()
+        if target is not None:
+            new_connection = UserList(target.id, id)
+            db.session.add(new_connection)
+            db.session.commit()
+            message = {
+                'status': 201,
+                'message': 'Your List Has Been Shared'
+            }
+            resp = jsonify(message), 201
+        else:
+            message = {
+                'status': 201,
+                'message': 'User Not Found',
+            }
+            resp = jsonify(message), 201
+    return resp
+
 def check_users(shopping_list):
     users = UserList.query.filter_by(list_id = shopping_list.list_id).all()
     if users is None:
