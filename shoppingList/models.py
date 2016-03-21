@@ -1,74 +1,78 @@
 from shoppingList import db, auth
 
+
 class User(db.Model):
-	id = db.Column(db.Integer, primary_key = True)
-	email = db.Column(db.String(255), unique = True)
-	password = db.Column(db.String(255))
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255))
 
     def __init__(self, email, password):
         self.email = email
         self.password = password
 
+
 class List(db.Model):
-	id = db.Column(db.Integer, primary_key = True)
-	name = db.Column(db.String(255))
-	creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-	def __init__(self, name, creator):
-		self.name = name
-		self.creator_id = creator
+    def __init__(self, name, creator):
+        self.name = name
+        self.creator_id = creator
 
-	@property
-	def serialize(self):
-		return {
-			'id' : self.id,
-			'name':self.name,
-			'creator_id':self.creator_id
-		}
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'creator_id': self.creator_id
+        }
+
 
 class UserList(db.Model):
-	id = db.Column(db.Integer, primary_key = True)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-	list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
 
-	def __init__(self, userId, listId):
-		self.user_id = userId
-		self.list_id = listId
+    def __init__(self, userId, listId):
+        self.user_id = userId
+        self.list_id = listId
 
-	@property
-	def serialize(self):
-		return {
-			'id' : self.id,
-			'user_id':user_id,
-			'list_id':list_id,
-		}
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': user_id,
+            'list_id': list_id,
+        }
+
 
 class Item(db.Model):
-	id = db.Column(db.Integer, primary_key = True)
-	name = db.Column(db.String(120))
-	quantity = db.Column(db.String(120))
-	price = db.Column(db.Integer)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-	list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120))
+    quantity = db.Column(db.String(120))
+    price = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
 
-	def __init__(self, name, listId, user_id, price=None, quantity=None):
-		self.name = name
-		self.list_id = listId
-		self.user_id = user_id
-		if price is None:
-			price = 0
-		self.price = price;
-		if quantity is None:
-			quantity = 1
-		self.quantity = quantity
+    def __init__(self, name, listId, user_id, price=None, quantity=None):
+        self.name = name
+        self.list_id = listId
+        self.user_id = user_id
+        if price is None:
+            price = 0
+        self.price = price;
+        if quantity is None:
+            quantity = 1
+        self.quantity = quantity
 
-	@property
-	def serialize(self):
-		return {
-			'id' : self.id,
-			'name':self.name,
-			'list_id':self.list_id,
-			'price':self.price,
-			'user_id':self.user_id,
-			'quantity':self.quantity,
-		}
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'list_id': self.list_id,
+            'price': self.price,
+            'user_id': self.user_id,
+            'quantity': self.quantity,
+        }
