@@ -96,10 +96,3 @@ def share_list():
             }
             resp = jsonify(message), 201
     return resp
-
-def check_users(shopping_list):
-    users = UserList.query.filter_by(list_id = shopping_list.list_id).all()
-    if users is None:
-        return False
-    else:
-        return True
