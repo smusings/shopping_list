@@ -79,7 +79,6 @@ shoppingList.controller('listController', function($scope, $http){
 			});
 	}
 
-
 	function clearField()
 	{
 		$scope.itemName = "";

@@ -10,7 +10,6 @@ class User(db.Model):
         self.email = email
         self.password = password
 
-
 class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
@@ -28,7 +27,6 @@ class List(db.Model):
             'creator_id': self.creator_id
         }
 
-
 class UserList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -42,10 +40,9 @@ class UserList(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'user_id': user_id,
-            'list_id': list_id,
+            'user_id': self.user_id,
+            'list_id': self.list_id
         }
-
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)

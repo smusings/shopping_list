@@ -5,7 +5,6 @@ from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
 from shoppingList.item import item_json, delete_item_json, json_list
 from shoppingList.list import get_list, delete_table_json, shopping_list
-from requests.auth import HTTPBasicAuth
 
 # Auth
 @auth.get_password
