@@ -85,4 +85,10 @@ shoppingList.controller('listController', function($scope, $http){
 		$scope.itemQuantity = "";
 		$scope.itemPrice = "";
 	}
+
+	$scope.shareList = function()
+	{
+	    var email = document.getElementById("email").value;
+
+	}
 });
