@@ -89,6 +89,13 @@ shoppingList.controller('listController', function($scope, $http){
 	$scope.shareList = function()
 	{
 	    var email = document.getElementById("email").value;
-
+	    var payload = [{
+	        'email':email,
+	        'list_id':$scope.listId
+	    }]
+	    $http.post('/api/shareList', payload).success(function(response)
+	    {
+	        alert(response);
+	    });
 	}
 });

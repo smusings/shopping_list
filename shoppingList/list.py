@@ -77,7 +77,7 @@ def share_list():
     resp = None
     json_list = request.get_json(silent=True)
     for obj in json_list:
-        id=obj['id']
+        id=obj['list_id']
         email = obj['email']
         target = User.query.filter_by(email = email).first()
         if target is not None:
