@@ -1,4 +1,5 @@
 from shoppingList import db, auth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
@@ -8,7 +9,13 @@ class User(db.Model):
 
     def __init__(self, email, password):
         self.email = email
-        self.password = password
+        self.set_password(password)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)

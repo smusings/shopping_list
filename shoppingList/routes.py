@@ -56,9 +56,9 @@ def login():
         if user is None:
             error = 'Invalid Email'
         else:
-            if request.form['password'] != user.password:
+            if not user.check_password(request.form['password']):
                 error = 'Invalid Password'
-            elif request.form['username'] == user.email and request.form['password'] == user.password:
+            else:
                 session['logged_in'] = True
                 session['user'] = user.id
                 return redirect(url_for('home'))
