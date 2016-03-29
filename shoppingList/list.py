@@ -64,7 +64,6 @@ def shopping_list():
     return jsonify(data=[i.serialize for i in lst]), 201
 
 @app.route('/api/registerUser', methods=['POST'])
-@auth.login_required
 def register_user():
     user = User(request.form['email'], request.form['password'])
     db.session.add(user)

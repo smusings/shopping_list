@@ -62,6 +62,7 @@ def login():
                 session['logged_in'] = True
                 session['user'] = user.id
                 return redirect(url_for('home'))
+        print error
         return render_template('login.html', error = error)
 
 @app.route('/logout')
