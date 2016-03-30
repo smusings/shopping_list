@@ -14,6 +14,13 @@ def get_password(email):
         return users.password
     return None
 
+@auth.verify_password
+def verify_password(username, password):
+    user = User.query.filter_by(username).first()
+    if not user:
+        return False
+    return user.check_password(password)
+
 @auth.error_handler
 def unauthorized():
     return jsonify({'error': 'Unauthorized access'}), 401
