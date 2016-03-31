@@ -65,10 +65,14 @@ def shopping_list():
 
 @app.route('/api/registerUser', methods=['POST'])
 def register_user():
-    user = User(request.form['email'], request.form['password'])
-    db.session.add(user)
-    db.session.commit()
-    return redirect(url_for('home'))
+    existing = User.query.filter_by(email = request.form['email']).first()
+    if existing is None:
+        user = User(request.form['email'], request.form['password'])
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('home'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/api/shareList', methods=['POST'])
 @auth.login_required

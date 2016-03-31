@@ -16,7 +16,7 @@ def get_password(email):
 
 @auth.verify_password
 def verify_password(username, password):
-    user = User.query.filter_by(username).first()
+    user = User.query.filter_by(email = username).first()
     if not user:
         return False
     return user.check_password(password)
