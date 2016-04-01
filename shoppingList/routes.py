@@ -7,13 +7,6 @@ from shoppingList.item import item_json, delete_item_json, json_list
 from shoppingList.list import get_list, delete_table_json, shopping_list
 
 # Auth
-@auth.get_password
-def get_password(email):
-    users = User.query.filter_by(email=email).first()
-    if users is not None:
-        return users.password
-    return None
-
 @auth.verify_password
 def verify_password(username, password):
     user = User.query.filter_by(email = username).first()
@@ -69,7 +62,6 @@ def login():
                 session['logged_in'] = True
                 session['user'] = user.id
                 return redirect(url_for('home'))
-        print error
         return render_template('login.html', error = error)
 
 @app.route('/logout')
