@@ -2,13 +2,14 @@ import math
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList import app, db, auth, not_implimented
 from shoppingList.models import User, List, Item, UserList
+
 """
 Endpoints involving Item
 """
 
 @app.route('/api/item', methods=['POST'])
 @auth.login_required
-def item_json():
+def post_item_json():
     resp = not_implimented()
     if request.method == 'POST':
         json_list = request.get_json(silent=True)

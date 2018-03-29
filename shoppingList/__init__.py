@@ -1,14 +1,13 @@
 import os
+import sys
 from flask import Flask, jsonify
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from flask.ext.mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
-mail = Mail(app)
 auth = HTTPBasicAuth()
 Bootstrap(app)
 
@@ -24,4 +23,4 @@ def not_implimented():
         }), 501
     return resp
 
-import shoppingList.routes
+from shoppingList.routes import routes

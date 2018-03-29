@@ -1,0 +1,3 @@
+virtualenv/
+.vscode
+shoppingList/__pycache__/

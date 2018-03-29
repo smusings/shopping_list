@@ -3,8 +3,8 @@ import requests
 from shoppingList import app, db, auth, not_implimented
 from flask import render_template, request, redirect, url_for, session, jsonify
 from shoppingList.models import User, List, Item, UserList
-from shoppingList.item import item_json, delete_item_json, json_list
-from shoppingList.list import get_list, delete_table_json, shopping_list
+from shoppingList.item.item import post_item_json, delete_item_json, json_list
+from shoppingList.list.list import get_list, delete_table_json, shopping_list
 
 # Auth
 @auth.verify_password
