@@ -23,4 +23,4 @@ def not_implimented():
         }), 501
     return resp
 
-from shoppingList.routes import routes
+import shoppingList.routes.routes

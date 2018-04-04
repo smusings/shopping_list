@@ -7,6 +7,7 @@ from shoppingList.models import User, List, Item, UserList
 Endpoints involving Item
 """
 
+#ADD ERROR HANDLING TO EVERYTHING
 @app.route('/api/item', methods=['POST'])
 @auth.login_required
 def post_item_json():
@@ -16,13 +17,12 @@ def post_item_json():
         for obj in json_list:
             price = abs(obj['price'])
             quantity = int(abs(obj['quantity']))
-            item = Item(obj['name'], obj['list_id'], session.get('user'), price, quantity)
-            possibleItem = Item.query.filter(Item.name.ilike(obj['name'])).filter_by(list_id=obj['list_id']).first()
-            if possibleItem is not None:
-                possibleItem.price = price
-                possibleItem.quantity = quantity + int(possibleItem.quantity)
+            item = Item.query.filter(Item.name.ilike(obj['name'])).filter_by(list_id=obj['list_id']).first()
+            if item is not None:
+                item.price = 
+                item.quantity = quantity + int(item.quantity)
             else:
-                db.session.add(item)
+                db.session.add(Item(obj['name'], obj['list_id'], price, quantity))
         db.session.commit()
 
         message = {
@@ -32,6 +32,8 @@ def post_item_json():
         resp = jsonify(message), 201
     return resp
 
+
+#add list id
 @app.route('/api/item/<int:id>', methods=['DELETE'])
 @auth.login_required
 def delete_item_json(id):
@@ -48,6 +50,8 @@ def delete_item_json(id):
         resp = jsonify(message), 204
     return resp
 
+
+#wtf is this even doing?!
 @app.route('/api/list/item<int:id>', methods=['GET'])
 @auth.login_required
 def json_list(id):

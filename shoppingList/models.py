@@ -56,13 +56,13 @@ class Item(db.Model):
     name = db.Column(db.String(120))
     quantity = db.Column(db.String(120))
     price = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    checked = db.Column(db.Boolean)
     list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
 
-    def __init__(self, name, listId, user_id, price=None, quantity=None):
+    def __init__(self, name, listId, price=None, quantity=None):
         self.name = name
         self.list_id = listId
-        self.user_id = user_id
+        self.checked = False
         if price is None:
             price = 0
         self.price = price;
@@ -77,6 +77,6 @@ class Item(db.Model):
             'name': self.name,
             'list_id': self.list_id,
             'price': self.price,
-            'user_id': self.user_id,
+            'checked': self.checked,
             'quantity': self.quantity,
         }

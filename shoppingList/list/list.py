@@ -5,7 +5,7 @@ from shoppingList.models import User, List, Item, UserList
 """
 Endpoints involving List
 """
-
+#WHAT IS THIS ELDRITCH NONSENSE?!
 @app.route('/api/list', methods=['GET','POST'])
 @auth.login_required
 def get_list():
